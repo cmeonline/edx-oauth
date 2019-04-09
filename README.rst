@@ -1,11 +1,11 @@
-Olp-Bie OAuth2 Backend
+NYSPMA OAuth2 Backend
 =============================
 
 
 Overview
 --------
 
-A Python Social Auth backend for Olp-Bie, mostly used for Open edX but can be used elsewhere.
+A Python Social Auth backend for NYSPMA, mostly used for Open edX but can be used elsewhere.
 This package was originally cloned from https://github.com/appsembler/trinity-oauth-backend.
 
 This package is structured so that it can be uploaded to PyPI and installed using pip or easyinstall.
