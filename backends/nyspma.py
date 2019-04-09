@@ -14,7 +14,7 @@ from django.conf import settings
 
 from logging import getLogger
 logger = getLogger(__name__)
-logger.info('edx_oauth_nyspma.backend.py - instantiated')
+logger.info('nyspma.backend.py - instantiated')
 
 class NyspmaOAuth2(BaseOAuth2):
     """Nyspma OAuth authentication backend"""
