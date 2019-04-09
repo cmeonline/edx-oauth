@@ -1,0 +1,7 @@
+# Packages for testing
+pytest==3.5.0
+httpretty==0.8.14
+unittest2==1.1.0
+pycodestyle==2.4.0
+pyflakes==1.6.0
+-e .

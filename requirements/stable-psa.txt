@@ -1,0 +1,3 @@
+# Stable Python Social Auth, found in Open edX Ginkgo
+social-auth-app-django==1.2.0
+social-auth-core==1.7.0

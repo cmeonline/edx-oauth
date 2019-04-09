@@ -1,0 +1,2 @@
+# Legacy Python Social Auth, found in Open edX Ficus
+python-social-auth==0.2.21
