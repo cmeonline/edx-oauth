@@ -18,7 +18,7 @@ logger.debug('backends.nyspma.py - instantiated')
 
 class NYSPMAOAuth2(BaseOAuth2):
     """NYSPMA OAuth authentication backend"""
-    name = 'NY State Podiatric Medical Association'
+    name = 'NYSPMA'
 
     #CLIENT_ID = settings.NYSPMA_BACKEND_CLIENT_ID
     #CLIENT_SECRET = settings.NYSPMA_BACKEND_CLIENT_SECRET
