@@ -112,7 +112,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         return {
                 'username': str(response.get('uid')),
                 'email': response['info']['email_address'],
-                'fullname': response['info']['first_name'] + ' ' + response.['info']['last_name'],
+                'fullname': response['info']['first_name'] + ' ' + response['info']['last_name'],
                 'first_name': response['info']['first_name'],
                 'last_name': response['info']['last_name'],
                 }
