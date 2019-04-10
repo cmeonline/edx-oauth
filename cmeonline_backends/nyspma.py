@@ -66,7 +66,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         return urlopen(url).read().decode("utf-8")
 
     def get_key_and_secret(self):
-        logger.info('get_key_and_secret() - entered.')
+        logger.info('get_key_and_secret() - entered. Client_id: {}'.format(self.CLIENT_ID))
         return (self.CLIENT_ID, self.CLIENT_SECRET)
 
     def get_user_id(self, details, response):
