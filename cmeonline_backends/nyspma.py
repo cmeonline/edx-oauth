@@ -38,9 +38,9 @@ class NYSPMAOAuth2(BaseOAuth2):
     REDIRECT_STATE = False
 
     def __init__(self, *args, **kwargs):
-        AUTHORIZATION_URL = self.base_url() #+ settings.NYSPMA_BACKEND_AUTHORIZATION_URL
-        ACCESS_TOKEN_URL = self.base_url() #+ settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
-        USER_QUERY = self.base_url() #+ settings.NYSPMA_BACKEND_USER_QUERY
+        AUTHORIZATION_URL = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
+        ACCESS_TOKEN_URL = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
+        USER_QUERY = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_USER_QUERY
 
         super(NYSPMAOAuth2, self).__init__(*args, **kwargs)
 
