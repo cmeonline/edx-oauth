@@ -75,21 +75,11 @@ class NYSPMAOAuth2(BaseOAuth2):
                 }
 
     def user_data(self, access_token, *args, **kwargs):
-        logger.debug('user_data() - entered.')
-        logger.debug('user_data() - entered. args: {}'.format(args))
-        logger.debug('user_data() - entered. kwargs: {}'.format(kwargs))
-        response = self.get_json(self.USER_QUERY,
-                                 params={'access_token': access_token})
-        logger.debug('user_data() - user_query: {}'.format(response))
-
-        response = {
-            'email': response['email_address'],
-            'name': response['first_name'],
-            'fullname': response['first_name'] + ' ' +
-                        response['last_name'],
-            'first_name': response['first_name'],
-            'last_name': response['last_name'],
-            'user_id': str(response['id']),
-        }
-        logger.debug('get_user_details() - returning these results: {}'.format(response))
-        return response
+        """Loads user data from service"""
+        url = self.USER_QUERY + urlencode({
+            'access_token': access_token
+        })
+        try:
+            return json.loads(self.urlopen(url))
+        except ValueError:
+            return None
