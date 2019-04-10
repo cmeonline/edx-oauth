@@ -35,7 +35,7 @@ setup(
     author_email='lpm0073@gmail.com',
     url='https://github.com/lpm0073/edx-oauth-nyspma',
     packages=[
-        'backends',
+        'cmeonline_backends',
     ],
     include_package_data=True,
     zip_safe=False,
