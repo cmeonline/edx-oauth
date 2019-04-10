@@ -121,19 +121,19 @@ class NYSPMAOAuth2(BaseOAuth2):
         logger.info('user_data() - entered. args: {}'.format(args))
         logger.info('user_data() - entered. kwargs: {}'.format(kwargs))
         """
-
+        {u'last_name': u'Admin', u'suffix': u'', u'fp_timestamp': 1554917894, u'prefix': u'', u'exp_date': u'12/31/2050', u'email_address': u'nyspma_oauth_admin@nyspma.org', u'id': 2035093, u'date_joined': u'', u'category': u'Administrator', u'city': u'New York', u'first_name': u'OAuth2', u'zip': u'10018', u'state': u'NE', u'address_type': u'Company', u'org_name': u'NYSPMA', u'fax': u'', u'address1': u'555 Eighth Avenue', u'address2': u'Suite 1902', u'contact_no': 200179, u'phone': u'(646) 386-2528', u'fingerprint': u'62cbdf8f02d495e06d388786de49c41c', u'nickname': u'OAuth2', u'key_contact': False, u'sub_category1': u'', u'mobile': u'', u'country': u'', u'org_id': u'NYSPMA'}
         """
         response = self.get_json(self.USER_QUERY,
                                  params={'access_token': access_token})
 
         logger.info('user_data() - user_query: {}'.format(response))
         response = {
-            'email': response['info']['email_address'],
-            'name': response['info']['first_name'],
-            'fullname': response['info']['first_name'] + ' ' +
-                        response['info']['last_name'],
-            'first_name': response['info']['first_name'],
-            'last_name': response['info']['last_name'],
+            'email': response['email_address'],
+            'name': response['first_name'],
+            'fullname': response['first_name'] + ' ' +
+                        response['last_name'],
+            'first_name': response['first_name'],
+            'last_name': response['last_name'],
             'user_id': str(response['uid']),
         }
         logger.warning('get_user_details() - returning these results: {}'.format(response))
