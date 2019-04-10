@@ -23,9 +23,9 @@ class NYSPMAOAuth2(BaseOAuth2):
     CLIENT_ID = settings.NYSPMA_BACKEND_CLIENT_ID
     CLIENT_SECRET = settings.NYSPMA_BACKEND_CLIENT_SECRET
     BASE_URL = settings.NYSPMA_BACKEND_BASE_URL
-    AUTHORIZATION_URL = BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
-    ACCESS_TOKEN_URL = BASE_URL + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
-    USER_QUERY = BASE_URL + settings.NYSPMA_BACKEND_USER_QUERY
+    AUTHORIZATION_URL = settings.NYSPMA_BACKEND_AUTHORIZATION_URL
+    ACCESS_TOKEN_URL = settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
+    USER_QUERY = settings.NYSPMA_BACKEND_USER_QUERY
     SOCIAL_AUTH_SANITIZE_REDIRECTS = False
     REQUEST_TOKEN_METHOD = 'POST'
     ACCESS_TOKEN_METHOD = 'POST'
@@ -41,46 +41,50 @@ class NYSPMAOAuth2(BaseOAuth2):
     def __init__(self, *args, **kwargs):
 
         logger.debug('__init__. AUTHORIZATION_URL: {auth}, ACCESS_TOKEN_URL: {token}, USER_QUERY: {usr}'.format(
-            auth = self.AUTHORIZATION_URL,
-            token = self.ACCESS_TOKEN_URL,
-            usr = self.USER_QUERY
+            auth = self.authorization_url(),
+            token = self.access_token_url(),
+            usr = self.user_query()
         ))
 
         super(NYSPMAOAuth2, self).__init__(*args, **kwargs)
 
     @property
     def base_url(self):
-        logger.debug('base_url() - entered.')
         return self.BASE_URL
 
+    def authorization_url(self):
+        return self.base_url() + self.AUTHORIZATION_URL
+
+    def access_token_url(self):
+        return self.base_url() + self.ACCESS_TOKEN_URL
+
+    def user_query(self):
+        return self.base_url() + self.USER_QUERY
+
     def urlopen(self, url):
-        logger.debug('urlopen() - entered.')
         return urlopen(url).read().decode("utf-8")
 
     def get_key_and_secret(self):
-        logger.debug('get_key_and_secret() - entered. Client_id: {}'.format(self.CLIENT_ID))
         return (self.CLIENT_ID, self.CLIENT_SECRET)
 
     def get_user_id(self, details, response):
-        logger.info('get_user_id() - details: {}'.format(details))
-        logger.info('get_user_id() - response: {}'.format(response))
         return response['id']
 
     def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
         return details['username']
 
     def get_user_details(self, response):
-        logger.debug('get_user_details() - entered. response: {}'.format(response))
-        return {
-                'id': response['email_address'], #response.get('id'),
-                'org_id': response['org_id'],
-                'date_joined': response['date_joined'],
-                'username': response['email_address'],
-                'email': response['email_address'],
-                'fullname': response['first_name'] + ' ' + response['last_name'],
-                'first_name': response['first_name'],
-                'last_name': response['last_name'],
-                }
+        """Return user details from NYSPMA account"""
+        fullname, first_name, last_name = self.get_user_names(
+            response.get('first_name', '') + ' ' + response.get('last_name', ''),
+            response.get('first_name', ''),
+            response.get('last_name', '')
+        )
+        return {'username': response.get('email_address', response.get('id')),
+                'email': response.get('email_address', ''),
+                'fullname': fullname,
+                'first_name': first_name,
+                'last_name': last_name}
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
