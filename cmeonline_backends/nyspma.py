@@ -18,10 +18,10 @@ logger.debug('backends.nyspma.py - instantiated')
 
 class NYSPMAOAuth2(BaseOAuth2):
     """NYSPMA OAuth authentication backend"""
-    name = 'nyspma'
+    name = 'NY State Podiatric Medical Association'
 
-    CLIENT_ID = settings.NYSPMA_BACKEND_CLIENT_ID
-    CLIENT_SECRET = settings.NYSPMA_BACKEND_CLIENT_SECRET
+    #CLIENT_ID = settings.NYSPMA_BACKEND_CLIENT_ID
+    #CLIENT_SECRET = settings.NYSPMA_BACKEND_CLIENT_SECRET
     #BASE_URL = settings.NYSPMA_BACKEND_BASE_URL
     #AUTHORIZATION_URL = BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
     #ACCESS_TOKEN_URL = BASE_URL + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
@@ -65,13 +65,13 @@ class NYSPMAOAuth2(BaseOAuth2):
         return urlopen(url).read().decode("utf-8")
 
     def get_key_and_secret(self):
-        return (self.CLIENT_ID, self.CLIENT_SECRET)
+        return (settings.NYSPMA_BACKEND_CLIENT_ID, settings.NYSPMA_BACKEND_CLIENT_SECRET)
 
-    def get_user_id(self, details, response):
-        return response['id']
+    #def get_user_id(self, details, response):
+    #    return response['id']
 
-    def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
-        return details['username']
+    #def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
+    #    return details['username']
 
     def get_user_details(self, response):
         """Return user details from NYSPMA account"""
