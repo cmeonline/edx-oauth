@@ -40,9 +40,9 @@ class NYSPMAOAuth2(BaseOAuth2):
     def __init__(self, *args, **kwargs):
 
         logger.info('__init__. AUTHORIZATION_URL: {auth}, ACCESS_TOKEN_URL: {token}, USER_QUERY: {usr}'.format(
-            auth = AUTHORIZATION_URL,
-            token = ACCESS_TOKEN_URL,
-            usr = USER_QUERY
+            auth = self.AUTHORIZATION_URL,
+            token = self.ACCESS_TOKEN_URL,
+            usr = self.USER_QUERY
         ))
 
         super(NYSPMAOAuth2, self).__init__(*args, **kwargs)
