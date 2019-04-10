@@ -33,7 +33,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     EXTRA_DATA = [
         ('id', 'id')
     ]
-    SCOPE_SEPARATOR = ','
+    SCOPE_SEPARATOR = ' '
     DEFAULT_SCOPE = ['public', 'write']
     REDIRECT_STATE = False
 
