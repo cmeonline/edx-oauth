@@ -22,9 +22,9 @@ class NYSPMAOAuth2(BaseOAuth2):
 
     CLIENT_ID = settings.NYSPMA_BACKEND_CLIENT_ID
     CLIENT_SECRET = settings.NYSPMA_BACKEND_CLIENT_SECRET
-    AUTHORIZATION_URL = ''
-    ACCESS_TOKEN_URL = ''
-    USER_QUERY = ''
+    AUTHORIZATION_URL = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
+    ACCESS_TOKEN_URL = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
+    USER_QUERY = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_USER_QUERY
 
     SOCIAL_AUTH_SANITIZE_REDIRECTS = False
 
@@ -38,9 +38,6 @@ class NYSPMAOAuth2(BaseOAuth2):
     REDIRECT_STATE = False
 
     def __init__(self, *args, **kwargs):
-        AUTHORIZATION_URL = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
-        ACCESS_TOKEN_URL = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
-        USER_QUERY = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_USER_QUERY
 
         logger.info('__init__. AUTHORIZATION_URL: {auth}, ACCESS_TOKEN_URL: {token}, USER_QUERY: {usr}'.format(
             auth = AUTHORIZATION_URL,
