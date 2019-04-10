@@ -53,13 +53,13 @@ class NYSPMAOAuth2(BaseOAuth2):
         return settings.NYSPMA_BACKEND_BASE_URL
 
     def authorization_url(self):
-        return self.base_url() + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
+        return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
 
     def access_token_url(self):
-        return self.base_url() + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
+        return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
 
     def user_query(self):
-        return self.base_url() + settings.NYSPMA_BACKEND_USER_QUERY
+        return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_USER_QUERY
 
     def urlopen(self, url):
         return urlopen(url).read().decode("utf-8")
