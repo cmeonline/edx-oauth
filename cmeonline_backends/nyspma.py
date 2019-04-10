@@ -61,13 +61,13 @@ class NYSPMAOAuth2(BaseOAuth2):
         logger.debug('get_key_and_secret() - entered. Client_id: {}'.format(self.CLIENT_ID))
         return (self.CLIENT_ID, self.CLIENT_SECRET)
 
-    def get_user_id(self, details, response):
-        logger.info('get_user_id() - details: {}'.format(details))
-        logger.info('get_user_id() - response: {}'.format(response))
-        return response['email_address']
+    #def get_user_id(self, details, response):
+    #    logger.info('get_user_id() - details: {}'.format(details))
+    #    logger.info('get_user_id() - response: {}'.format(response))
+    #    return response['email_address']
 
-    def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
-        return details['username']
+    #def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
+    #    return details['username']
 
     def get_user_details(self, response):
         logger.debug('get_user_details() - entered. response: {}'.format(response))
