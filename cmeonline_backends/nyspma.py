@@ -42,6 +42,12 @@ class NYSPMAOAuth2(BaseOAuth2):
         ACCESS_TOKEN_URL = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
         USER_QUERY = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_USER_QUERY
 
+        logger.info('__init__. AUTHORIZATION_URL: {auth}, ACCESS_TOKEN_URL: {token}, USER_QUERY: {usr}'.format(
+            auth = AUTHORIZATION_URL,
+            token = ACCESS_TOKEN_URL,
+            usr = USER_QUERY
+        ))
+
         super(NYSPMAOAuth2, self).__init__(*args, **kwargs)
 
     @property
