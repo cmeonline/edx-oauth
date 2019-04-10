@@ -14,7 +14,7 @@ from django.conf import settings
 
 from logging import getLogger
 logger = getLogger(__name__)
-logger.info('backends.nyspma.py - instantiated')
+logger.debug('backends.nyspma.py - instantiated')
 
 class NYSPMAOAuth2(BaseOAuth2):
     """NYSPMA OAuth authentication backend"""
@@ -22,12 +22,11 @@ class NYSPMAOAuth2(BaseOAuth2):
 
     CLIENT_ID = settings.NYSPMA_BACKEND_CLIENT_ID
     CLIENT_SECRET = settings.NYSPMA_BACKEND_CLIENT_SECRET
-    AUTHORIZATION_URL = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
-    ACCESS_TOKEN_URL = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
-    USER_QUERY = 'https://staging.associationdatabase.com' + settings.NYSPMA_BACKEND_USER_QUERY
-
+    BASE_URL = settings.NYSPMA_BACKEND_BASE_URL
+    AUTHORIZATION_URL = BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
+    ACCESS_TOKEN_URL = BASE_URL + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
+    USER_QUERY = BASE_URL + settings.NYSPMA_BACKEND_USER_QUERY
     SOCIAL_AUTH_SANITIZE_REDIRECTS = False
-
     REQUEST_TOKEN_METHOD = 'POST'
     ACCESS_TOKEN_METHOD = 'POST'
     EXTRA_DATA = [
@@ -39,7 +38,7 @@ class NYSPMAOAuth2(BaseOAuth2):
 
     def __init__(self, *args, **kwargs):
 
-        logger.info('__init__. AUTHORIZATION_URL: {auth}, ACCESS_TOKEN_URL: {token}, USER_QUERY: {usr}'.format(
+        logger.debug('__init__. AUTHORIZATION_URL: {auth}, ACCESS_TOKEN_URL: {token}, USER_QUERY: {usr}'.format(
             auth = self.AUTHORIZATION_URL,
             token = self.ACCESS_TOKEN_URL,
             usr = self.USER_QUERY
@@ -49,51 +48,24 @@ class NYSPMAOAuth2(BaseOAuth2):
 
     @property
     def base_url(self):
-        logger.info('base_url() - entered.')
-        # env = self.setting('ENVIRONMENT', default='staging')
-        env = 'staging'
-
-        if env == 'staging':
-            return 'https://staging.associationdatabase.com'
-        elif env == 'production':
-            return 'https://associationdatabase.com'
-
-        raise AuthException(
-            'Invalid environment was found `{env}`, '
-            'valid choices are `production` and `staging`.'.format(
-                env=env,
-            ))
+        logger.debug('base_url() - entered.')
+        return self.BASE_URL
 
     def urlopen(self, url):
-        logger.info('urlopen() - entered.')
+        logger.debug('urlopen() - entered.')
         return urlopen(url).read().decode("utf-8")
 
     def get_key_and_secret(self):
-        logger.info('get_key_and_secret() - entered. Client_id: {}'.format(self.CLIENT_ID))
+        logger.debug('get_key_and_secret() - entered. Client_id: {}'.format(self.CLIENT_ID))
         return (self.CLIENT_ID, self.CLIENT_SECRET)
 
     def get_user_id(self, details, response):
-        logger.info('get_user_id() - details: {}'.format(details))
-        logger.info('get_user_id() - response: {}'.format(response))
+        logger.debug('get_user_id() - details: {}'.format(details))
+        logger.debug('get_user_id() - response: {}'.format(response))
         return details['username']
 
     def get_user_details(self, response):
-        logger.info('get_user_details() - entered. response: {}'.format(response))
-        """
-        {
-        'first_name': u'OAuth2',
-        'last_name': u'Admin',
-        'user_id': '2035093',
-        'name': u'OAuth2',
-        u'access_token': u'1ae8dcaca6e18c5e9238e1295dbb3657924acb760e1f4edb7dbcec8367bb7e34',
-        u'created_at': 1554916975,
-        u'expires_in': 5770,
-        u'token_type': u'Bearer',
-        u'scope': u'public write',
-        'fullname': u'OAuth2 Admin',
-        'email': u'nyspma_oauth_admin@nyspma.org', u'refresh_token': u'25f64be7b08bb1c6fc7c873ff021a9ce14677d2d5788351de1d24faa134cf2e5'
-        }
-        """
+        logger.debug('get_user_details() - entered. response: {}'.format(response))
         return {
                 'username': str(response.get('id')),
                 'email': response['email'],
@@ -103,27 +75,13 @@ class NYSPMAOAuth2(BaseOAuth2):
                 }
 
     def user_data(self, access_token, *args, **kwargs):
-        logger.info('user_data() - entered.')
-        logger.info('user_data() - entered. args: {}'.format(args))
-        logger.info('user_data() - entered. kwargs: {}'.format(kwargs))
-        """
-        {
-        u'last_name': u'Admin',
-        u'suffix': u'',
-        u'fp_timestamp': 1554917894,
-        u'prefix': u'',
-        u'exp_date': u'12/31/2050',
-        u'email_address':u'nyspma_oauth_admin@nyspma.org',
-        u'id': 2035093,
-        u'date_joined': u'',
-        u'category': u'Administrator',
-        u'city': u'New York', u'first_name': u'OAuth2', u'zip': u'10018', u'state': u'NE', u'address_type': u'Company', u'org_name': u'NYSPMA', u'fax': u'', u'address1': u'555 Eighth Avenue', u'address2': u'Suite 1902', u'contact_no': 200179, u'phone': u'(646) 386-2528',
-        u'fingerprint': u'62cbdf8f02d495e06d388786de49c41c', u'nickname': u'OAuth2', u'key_contact': False, u'sub_category1': u'', u'mobile': u'', u'country': u'', u'org_id': u'NYSPMA'}
-        """
+        logger.debug('user_data() - entered.')
+        logger.debug('user_data() - entered. args: {}'.format(args))
+        logger.debug('user_data() - entered. kwargs: {}'.format(kwargs))
         response = self.get_json(self.USER_QUERY,
                                  params={'access_token': access_token})
+        logger.debug('user_data() - user_query: {}'.format(response))
 
-        logger.info('user_data() - user_query: {}'.format(response))
         response = {
             'email': response['email_address'],
             'name': response['first_name'],
@@ -133,5 +91,5 @@ class NYSPMAOAuth2(BaseOAuth2):
             'last_name': response['last_name'],
             'user_id': str(response['id']),
         }
-        logger.warning('get_user_details() - returning these results: {}'.format(response))
+        logger.debug('get_user_details() - returning these results: {}'.format(response))
         return response
