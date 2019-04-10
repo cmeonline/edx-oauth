@@ -21,7 +21,7 @@ def get_version(*file_paths):
     raise RuntimeError('Unable to find version string.')
 
 
-VERSION = get_version('backends', '__init__.py')
+VERSION = get_version('cmeonline_backends', '__init__.py')
 
 README = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 
