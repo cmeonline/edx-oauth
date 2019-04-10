@@ -34,7 +34,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         ('id', 'id')
     ]
     SCOPE_SEPARATOR = ','
-    DEFAULT_SCOPE = ['public', 'write']
+    DEFAULT_SCOPE = ['public']
     REDIRECT_STATE = False
 
     def __init__(self, *args, **kwargs):
