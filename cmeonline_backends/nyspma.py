@@ -81,36 +81,22 @@ class NYSPMAOAuth2(BaseOAuth2):
         logger.info('get_user_details() - entered. response: {}'.format(response))
         """
         {
-        "first_name":"System",
-        "last_name":"Administrator",
-        "prefix":"","suffix":"",
-        "nickname":"System",
-        "address_type":"Company",
-        "address1":"425 Metro Place N #400",
-        "address2":"",
-        "city":"Dublin","state":"OH",
-        "zip":"43017",
-        "country":"",
-        "phone":"(614) 451-5010",
-        "fax":"","mobile":"",
-        "date_joined":"",
-        "exp_date":"",
-        "category":"Administrator",
-        "sub_category1":"",
-        "email_address":"NYSPMAAdmin@TCSSoftware.com",
-        "contact_no":0,
-        "id":1174494,
-        "org_id":"NYSPMA",
-        "org_name":"TCS Software TESTING",
-        "key_contact":false,
-        "fp_timestamp":1554744745,
-        "fingerprint":"99555eed098c74ee110514043bb2fe3d"
+        'first_name': u'OAuth2',
+        'last_name': u'Admin',
+        'user_id': '2035093',
+        'name': u'OAuth2',
+        u'access_token': u'1ae8dcaca6e18c5e9238e1295dbb3657924acb760e1f4edb7dbcec8367bb7e34',
+        u'created_at': 1554916975,
+        u'expires_in': 5770,
+        u'token_type': u'Bearer',
+        u'scope': u'public write',
+        'fullname': u'OAuth2 Admin',
+        'email': u'nyspma_oauth_admin@nyspma.org', u'refresh_token': u'25f64be7b08bb1c6fc7c873ff021a9ce14677d2d5788351de1d24faa134cf2e5'
         }
-
         """
         return {
                 'username': str(response.get('id')),
-                'email': response['email_address'],
+                'email': response['email'],
                 'fullname': response['first_name'] + ' ' + response['last_name'],
                 'first_name': response['first_name'],
                 'last_name': response['last_name'],
@@ -127,9 +113,12 @@ class NYSPMAOAuth2(BaseOAuth2):
         u'fp_timestamp': 1554917894,
         u'prefix': u'',
         u'exp_date': u'12/31/2050',
-        u'email_address':
-        u'nyspma_oauth_admin@nyspma.org',
-        u'id': 2035093, u'date_joined': u'', u'category': u'Administrator', u'city': u'New York', u'first_name': u'OAuth2', u'zip': u'10018', u'state': u'NE', u'address_type': u'Company', u'org_name': u'NYSPMA', u'fax': u'', u'address1': u'555 Eighth Avenue', u'address2': u'Suite 1902', u'contact_no': 200179, u'phone': u'(646) 386-2528', u'fingerprint': u'62cbdf8f02d495e06d388786de49c41c', u'nickname': u'OAuth2', u'key_contact': False, u'sub_category1': u'', u'mobile': u'', u'country': u'', u'org_id': u'NYSPMA'}
+        u'email_address':u'nyspma_oauth_admin@nyspma.org',
+        u'id': 2035093,
+        u'date_joined': u'',
+        u'category': u'Administrator',
+        u'city': u'New York', u'first_name': u'OAuth2', u'zip': u'10018', u'state': u'NE', u'address_type': u'Company', u'org_name': u'NYSPMA', u'fax': u'', u'address1': u'555 Eighth Avenue', u'address2': u'Suite 1902', u'contact_no': 200179, u'phone': u'(646) 386-2528',
+        u'fingerprint': u'62cbdf8f02d495e06d388786de49c41c', u'nickname': u'OAuth2', u'key_contact': False, u'sub_category1': u'', u'mobile': u'', u'country': u'', u'org_id': u'NYSPMA'}
         """
         response = self.get_json(self.USER_QUERY,
                                  params={'access_token': access_token})
