@@ -75,7 +75,7 @@ class NYSPMAOAuth2(BaseOAuth2):
                 'id': response.get('id'),
                 'org_id': response['org_id'],
                 'date_joined': response['date_joined'],
-                'username': str(response.get('id')),
+                'username': response['email_address'],
                 'email': response['email_address'],
                 'fullname': response['first_name'] + ' ' + response['last_name'],
                 'first_name': response['first_name'],
