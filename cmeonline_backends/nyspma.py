@@ -121,48 +121,12 @@ class NYSPMAOAuth2(BaseOAuth2):
         logger.info('user_data() - entered. args: {}'.format(args))
         logger.info('user_data() - entered. kwargs: {}'.format(kwargs))
         """
-        {
-        "provider": "tcs",
-        "uid": 1174494,
-        "info": {
-                "first_name":"System",
-                "last_name":"Administrator",
-                "prefix":"","suffix":"",
-                "nickname":"System",
-                "address_type":"Company",
-                "address1":"425 Metro Place N #400",
-                "address2":"","city":"Dublin",
-                "state":"OH",
-                "zip":"43017",
-                "country":"",
-                "phone":"(614) 451-5010",
-                "fax":"",
-                "mobile":"",
-                "date_joined":"",
-                "exp_date":"",
-                "category":"Administrator",
-                "sub_category1":"",
-                "email_address":"NYSPMAAdmin@TCSSoftware.com",
-                "contact_no":0,"id":1174494,
-                "org_id":"NYSPMA",
-                "org_name":"TCS Software TESTING",
-                "key_contact":false,
-                "fp_timestamp":1554740628,
-                "fingerprint":"f248afeae3ebd8c68a71762b9224e4ef",
-                "token":"a18087a473448827f5b7ce481fd687c2d80f056e07537beff9249cc83d868f40"
-        },
-        "credentials":  {
-                        "token":"a18087a473448827f5b7ce481fd687c2d80f056e07537beff9249cc83d868f40",
-                        "refresh_token":"306c96e8747936e9f313ed0ca61ca5eb5928dc5bb369d1a460df788b6154f8af",
-                        "expires_at":1554747826,
-                        "expires":true
-                        },
-        "extra":        {}
-        }
+
         """
-        logger.info('get_user_details() - entered.')
         response = self.get_json(self.USER_QUERY,
                                  params={'access_token': access_token})
+
+        logger.info('user_data() - user_query: {}'.format(response))
         response = {
             'email': response['info']['email_address'],
             'name': response['info']['first_name'],
