@@ -30,7 +30,9 @@ class NYSPMAOAuth2(BaseOAuth2):
     REQUEST_TOKEN_METHOD = 'POST'
     ACCESS_TOKEN_METHOD = 'POST'
     EXTRA_DATA = [
-        ('id', 'id')
+        ('id', 'id'),
+        ('org_id', 'org_id'),
+        ('date_joined', 'date_joined')
     ]
     SCOPE_SEPARATOR = ' '
     DEFAULT_SCOPE = ['public', 'write']
@@ -64,9 +66,15 @@ class NYSPMAOAuth2(BaseOAuth2):
         logger.info('get_user_id() - response: {}'.format(response))
         return details['username']
 
+    def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
+        return details['username']
+
     def get_user_details(self, response):
         logger.debug('get_user_details() - entered. response: {}'.format(response))
         return {
+                'id': response.get('id'),
+                'org_id': response['org_id'],
+                'date_joined': response['date_joined'],
                 'username': str(response.get('id')),
                 'email': response['email_address'],
                 'fullname': response['first_name'] + ' ' + response['last_name'],
