@@ -22,10 +22,10 @@ class NYSPMAOAuth2(BaseOAuth2):
 
     CLIENT_ID = settings.NYSPMA_BACKEND_CLIENT_ID
     CLIENT_SECRET = settings.NYSPMA_BACKEND_CLIENT_SECRET
-    #BASE_URL = settings.NYSPMA_BACKEND_BASE_URL
-    #AUTHORIZATION_URL = settings.NYSPMA_BACKEND_AUTHORIZATION_URL
-    #ACCESS_TOKEN_URL = settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
-    #USER_QUERY = settings.NYSPMA_BACKEND_USER_QUERY
+    BASE_URL = settings.NYSPMA_BACKEND_BASE_URL
+    AUTHORIZATION_URL = BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
+    ACCESS_TOKEN_URL = BASE_URL + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
+    USER_QUERY = BASE_URL + settings.NYSPMA_BACKEND_USER_QUERY
     SOCIAL_AUTH_SANITIZE_REDIRECTS = False
     REQUEST_TOKEN_METHOD = 'POST'
     ACCESS_TOKEN_METHOD = 'POST'
@@ -47,19 +47,6 @@ class NYSPMAOAuth2(BaseOAuth2):
         ))
 
         super(NYSPMAOAuth2, self).__init__(*args, **kwargs)
-
-    @property
-    def base_url(self):
-        return settings.NYSPMA_BACKEND_BASE_URL
-
-    def authorization_url(self):
-        return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
-
-    def access_token_url(self):
-        return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
-
-    def user_query(self):
-        return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_USER_QUERY
 
     def urlopen(self, url):
         return urlopen(url).read().decode("utf-8")
