@@ -14,17 +14,17 @@ from django.conf import settings
 
 from logging import getLogger
 logger = getLogger(__name__)
-logger.info('nyspma.backend.py - instantiated')
+logger.info('backends.nyspma.py - instantiated')
 
-class NyspmaOAuth2(BaseOAuth2):
-    """Nyspma OAuth authentication backend"""
+class NYSPMAOAuth2(BaseOAuth2):
+    """NYSPMA OAuth authentication backend"""
     name = 'nyspma'
 
     CLIENT_ID = settings.NYSPMA_BACKEND_CLIENT_ID
     CLIENT_SECRET = settings.NYSPMA_BACKEND_CLIENT_SECRET
-    AUTHORIZATION_URL = settings.NYSPMA_BACKEND_AUTHORIZATION_URL
-    ACCESS_TOKEN_URL = settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
-    USER_QUERY = settings.NYSPMA_BACKEND_USER_QUERY
+    AUTHORIZATION_URL = self.base_url() + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
+    ACCESS_TOKEN_URL = self.base_url() + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
+    USER_QUERY = self.base_url() + settings.NYSPMA_BACKEND_USER_QUERY
 
     SOCIAL_AUTH_SANITIZE_REDIRECTS = False
 
@@ -71,8 +71,8 @@ class NyspmaOAuth2(BaseOAuth2):
         logger.info('get_user_details() - entered. response: {}'.format(response))
         """
         {
-        "provider":"tcs",
-        "uid":1174494,
+        "provider": "tcs",
+        "uid": 1174494,
         "info": {
                 "first_name":"System",
                 "last_name":"Administrator",
@@ -110,11 +110,11 @@ class NyspmaOAuth2(BaseOAuth2):
         }
         """
         return {
-                'username': str(response.get('user_id')),
-                'email': response.get('email'),
-                'fullname': response.get('fullname'),
-                'first_name': response.get('first_name'),
-                'last_name': response.get('last_name'),
+                'username': str(response.get('uid')),
+                'email': response['info']['email_address'],
+                'fullname': response.['info']['first_name'] + ' ' + response.['info']['last_name'],
+                'first_name': response.['info']['first_name'],
+                'last_name': response.['info']['last_name'],
                 }
 
     def user_data(self, access_token, *args, **kwargs):
@@ -140,7 +140,8 @@ class NyspmaOAuth2(BaseOAuth2):
         "category":"Administrator",
         "sub_category1":"",
         "email_address":"NYSPMAAdmin@TCSSoftware.com",
-        "contact_no":0,"id":1174494,
+        "contact_no":0,
+        "id":1174494,
         "org_id":"NYSPMA",
         "org_name":"TCS Software TESTING",
         "key_contact":false,
@@ -151,32 +152,14 @@ class NyspmaOAuth2(BaseOAuth2):
         logger.info('get_user_details() - entered.')
         response = self.get_json(self.USER_QUERY,
                                  params={'access_token': access_token})
-        if 'meta' in response:
-            profile_url = response['meta']['links']['me']['href']
-            logger.info('get_user_details() - profile url: {}'.format(profile_url))
-        else:
-            logger.warning('get_user_details() - no profile url')
-            return {}
-
-        if profile_url:
-            response = self.get_json(profile_url,
-                                     params={'access_token': access_token})
-        else:
-            logger.warning('get_user_details() - no profile data')
-            return {}
-
-        if 'data' in response:
-            response = {
-                'email': response['data']['attributes']['mail'],
-                'name': response['data']['attributes']['field_first_name'],
-                'fullname': response['data']['attributes']['field_first_name'] + ' ' +
-                            response['data']['attributes']['field_last_name'],
-                'first_name': response['data']['attributes']['field_first_name'],
-                'last_name': response['data']['attributes']['field_last_name'],
-                'user_id': response['data']['attributes']['drupal_internal__uid'],
-            }
-            logger.warning('get_user_details() - returning these results: {}'.format(response))
-            return response
-        else:
-            logger.warning('get_user_details() - no data in profile response')
-            return {}
+        response = {
+            'email': response['email_address'],
+            'name': response['first_name'],
+            'fullname': response['first_name'] + ' ' +
+                        response['last_name'],
+            'first_name': response['first_name'],
+            'last_name': response['last_name'],
+            'user_id': str(response['id']),
+        }
+        logger.warning('get_user_details() - returning these results: {}'.format(response))
+        return response
