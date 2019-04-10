@@ -37,7 +37,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     DEFAULT_SCOPE = ['basic']
     REDIRECT_STATE = False
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         AUTHORIZATION_URL = self.base_url() + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
         ACCESS_TOKEN_URL = self.base_url() + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
         USER_QUERY = self.base_url() + settings.NYSPMA_BACKEND_USER_QUERY
