@@ -68,7 +68,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         logger.debug('get_user_details() - entered. response: {}'.format(response))
         return {
                 'username': str(response.get('id')),
-                'email': response['email'],
+                'email': response['email_address'],
                 'fullname': response['first_name'] + ' ' + response['last_name'],
                 'first_name': response['first_name'],
                 'last_name': response['last_name'],
