@@ -21,12 +21,12 @@ def get_version(*file_paths):
     raise RuntimeError('Unable to find version string.')
 
 
-VERSION = get_version('edx_oauth_olpbie', '__init__.py')
+VERSION = get_version('backends', '__init__.py')
 
 README = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 
 setup(
-    name='edx-oauth-olpbie',
+    name='oauth-nyspma',
     version=VERSION,
     description=('An OAuth backend for nyspma, '
                  'mostly used for Open edX but can be used elsewhere.'),
@@ -35,11 +35,11 @@ setup(
     author_email='lpm0073@gmail.com',
     url='https://github.com/lpm0073/edx-oauth-nyspma',
     packages=[
-        'edx_oauth_olpbie',
+        'backends',
     ],
     include_package_data=True,
     zip_safe=False,
-    keywords='OAuth OlpBie',
+    keywords='OAuth NYSPMA',
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
