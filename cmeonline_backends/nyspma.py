@@ -81,6 +81,47 @@ class NYSPMAOAuth2(BaseOAuth2):
         logger.info('get_user_details() - entered. response: {}'.format(response))
         """
         {
+        "first_name":"System",
+        "last_name":"Administrator",
+        "prefix":"","suffix":"",
+        "nickname":"System",
+        "address_type":"Company",
+        "address1":"425 Metro Place N #400",
+        "address2":"",
+        "city":"Dublin","state":"OH",
+        "zip":"43017",
+        "country":"",
+        "phone":"(614) 451-5010",
+        "fax":"","mobile":"",
+        "date_joined":"",
+        "exp_date":"",
+        "category":"Administrator",
+        "sub_category1":"",
+        "email_address":"NYSPMAAdmin@TCSSoftware.com",
+        "contact_no":0,
+        "id":1174494,
+        "org_id":"NYSPMA",
+        "org_name":"TCS Software TESTING",
+        "key_contact":false,
+        "fp_timestamp":1554744745,
+        "fingerprint":"99555eed098c74ee110514043bb2fe3d"
+        }
+
+        """
+        return {
+                'username': str(response.get('id')),
+                'email': response['email_address'],
+                'fullname': response['first_name'] + ' ' + response['last_name'],
+                'first_name': response['first_name'],
+                'last_name': response['last_name'],
+                }
+
+    def user_data(self, access_token, *args, **kwargs):
+        logger.info('user_data() - entered.')
+        logger.info('user_data() - entered. args: {}'.format(args))
+        logger.info('user_data() - entered. kwargs: {}'.format(kwargs))
+        """
+        {
         "provider": "tcs",
         "uid": 1174494,
         "info": {
@@ -119,57 +160,17 @@ class NYSPMAOAuth2(BaseOAuth2):
         "extra":        {}
         }
         """
-        return {
-                'username': str(response.get('uid')),
-                'email': response['info']['email_address'],
-                'fullname': response['info']['first_name'] + ' ' + response['info']['last_name'],
-                'first_name': response['info']['first_name'],
-                'last_name': response['info']['last_name'],
-                }
-
-    def user_data(self, access_token, *args, **kwargs):
-        logger.info('user_data() - entered.')
-        logger.info('user_data() - entered. args: {}'.format(args))
-        logger.info('user_data() - entered. kwargs: {}'.format(kwargs))
-        """
-        {
-        "first_name":"System",
-        "last_name":"Administrator",
-        "prefix":"","suffix":"",
-        "nickname":"System",
-        "address_type":"Company",
-        "address1":"425 Metro Place N #400",
-        "address2":"",
-        "city":"Dublin","state":"OH",
-        "zip":"43017",
-        "country":"",
-        "phone":"(614) 451-5010",
-        "fax":"","mobile":"",
-        "date_joined":"",
-        "exp_date":"",
-        "category":"Administrator",
-        "sub_category1":"",
-        "email_address":"NYSPMAAdmin@TCSSoftware.com",
-        "contact_no":0,
-        "id":1174494,
-        "org_id":"NYSPMA",
-        "org_name":"TCS Software TESTING",
-        "key_contact":false,
-        "fp_timestamp":1554744745,
-        "fingerprint":"99555eed098c74ee110514043bb2fe3d"
-        }
-        """
         logger.info('get_user_details() - entered.')
         response = self.get_json(self.USER_QUERY,
                                  params={'access_token': access_token})
         response = {
-            'email': response['email_address'],
-            'name': response['first_name'],
-            'fullname': response['first_name'] + ' ' +
-                        response['last_name'],
-            'first_name': response['first_name'],
-            'last_name': response['last_name'],
-            'user_id': str(response['id']),
+            'email': response['info']['email_address'],
+            'name': response['info']['first_name'],
+            'fullname': response['info']['first_name'] + ' ' +
+                        response['info']['last_name'],
+            'first_name': response['info']['first_name'],
+            'last_name': response['info']['last_name'],
+            'user_id': str(response['uid']),
         }
         logger.warning('get_user_details() - returning these results: {}'.format(response))
         return response
