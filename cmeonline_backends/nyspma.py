@@ -67,7 +67,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         return details['username']
 
     def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
-        return details['username']
+        return details['email_address']
 
     def get_user_details(self, response):
         logger.debug('get_user_details() - entered. response: {}'.format(response))
