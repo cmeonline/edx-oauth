@@ -161,46 +161,31 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     @property
     def base_url(self):
-        if self.DEBUG_LOG:
-            logger.info('base_url() - settings.NYSPMA_BACKEND_BASE_URL: {}'.format(settings.NYSPMA_BACKEND_BASE_URL))
-
-        if settings.NYSPMA_BACKEND_BASE_URL:
-            return settings.NYSPMA_BACKEND_BASE_URL
-
-        return self.DEFAULT_BASE_URL
+        url = _build_url(self,
+                        'base_url',
+                        settings.NYSPMA_BACKEND_BASE_URL,
+                        self.DEFAULT_BASE_URL)
+        return url
 
     def authorization_url(self):
-
-        if settings.NYSPMA_BACKEND_AUTHORIZATION_URL:
-            url = self.base_url + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
-        else:
-            url = self.base_url + '/oauth/authorize'
-
-        if self.DEBUG_LOG:
-            logger.info('authorization_url(): {}'.format(url))
-
+        url = _build_url(self,
+                        'authorization_url',
+                        settings.NYSPMA_BACKEND_AUTHORIZATION_URL,
+                        '/oauth/authorize')
         return url
 
     def access_token_url(self):
-        if settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL:
-            url = self.base_url + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
-        else:
-            url = self.base_url + '/oauth/token'
-
-        if self.DEBUG_LOG:
-            logger.info('access_token_url(): {}'.format(url))
-
+        url = _build_url(self,
+                        'access_token_url',
+                        settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL,
+                        '/oauth/token')
         return url
 
     def user_query(self):
-        if settings.NYSPMA_BACKEND_USER_QUERY:
-            url = self.base_url + settings.NYSPMA_BACKEND_USER_QUERY
-        else:
-            url = self.base_url + '/api/user?'
-
-        if self.DEBUG_LOG:
-            logger.info('user_query(): {}'.format(url))
-
+        url = _build_url(self,
+                        'user_query',
+                        settings.NYSPMA_BACKEND_USER_QUERY,
+                        '/api/user?')
         return url
 
     def urlopen(self, url):
@@ -214,3 +199,12 @@ class NYSPMAOAuth2(BaseOAuth2):
             logger.info('get_key_and_secret() - client_id: {}'.format(settings.NYSPMA_BACKEND_CLIENT_ID))
 
         return (settings.NYSPMA_BACKEND_CLIENT_ID, settings.NYSPMA_BACKEND_CLIENT_SECRET)
+
+    def _build_url(self, url_type, setting_url, default_url):
+        if setting_url:
+            url = self.base_url + setting_url
+        else:
+            url = self.base_url + default_url
+
+        if self.DEBUG_LOG:
+            logger.info('url_type(): {}'.format(url))
