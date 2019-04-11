@@ -167,10 +167,16 @@ class NYSPMAOAuth2(BaseOAuth2):
         return 'https://associationdatabase.com'
 
     def authorization_url(self):
-        if self.DEBUG_LOG:
-            logger.info('authorization_url() - settings.NYSPMA_BACKEND_AUTHORIZATION_URL: {}'.format(settings.NYSPMA_BACKEND_AUTHORIZATION_URL))
 
-        return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
+        if settings.NYSPMA_BACKEND_BASE_URL and settings.NYSPMA_BACKEND_AUTHORIZATION_URL:
+            url = settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
+        else:
+            url = self.base_url + '/oauth/authorize'
+
+        if self.DEBUG_LOG:
+            logger.info('authorization_url(): {}'.format(url))
+
+        return url
 
     def access_token_url(self):
         if self.DEBUG_LOG:
