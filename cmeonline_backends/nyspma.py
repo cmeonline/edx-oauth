@@ -49,23 +49,20 @@ from social_core.backends.oauth import BaseOAuth2
 from social_core.exceptions import AuthException
 from django.conf import settings
 
-DEBUG_LOG = True
-if DEBUG_LOG:
-    from logging import getLogger
-    logger = getLogger(__name__)
-    logger.info('backends.nyspma.py - instantiated')
-
 class NYSPMAOAuth2(BaseOAuth2):
     """
     NYSPMA OAuth authentication backend.
     """
-    if DEBUG_LOG:
+    if self.DEBUG_LOG:
         logger.info('NYSPMAOAuth2 - instantiated')
 
     name = 'nyspma'             # to set the name that appears in the django admin
                                 # drop-down box, "Backend name" in the
                                 # "Add Provider Configuration (OAuth)" screen
 
+
+    DEBUG_LOG = True            # true if you want to create a log trace of
+                                # calls to this module.
 
     ID_KEY = 'email_address'    # determines which json key
                                 # contains the id value identifying
@@ -98,12 +95,14 @@ class NYSPMAOAuth2(BaseOAuth2):
     ## this is a hook in the event that we might want to get fancier with
     ## module initializations in the future.
     def __init__(self, *args, **kwargs):
-
-        logger.info('__init__. AUTHORIZATION_URL: {auth}, ACCESS_TOKEN_URL: {token}, USER_QUERY: {usr}'.format(
-            auth = self.authorization_url(),
-            token = self.access_token_url(),
-            usr = self.user_query()
-        ))
+        if self.DEBUG_LOG:
+            from logging import getLogger
+            logger = getLogger(__name__)
+            logger.info('__init__. AUTHORIZATION_URL: {auth}, ACCESS_TOKEN_URL: {token}, USER_QUERY: {usr}'.format(
+                auth = self.authorization_url(),
+                token = self.access_token_url(),
+                usr = self.user_query()
+            ))
 
         super(NYSPMAOAuth2, self).__init__(*args, **kwargs)
 
@@ -122,7 +121,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     def get_user_details(self, response):
         """Return user details from NYSPMA account"""
-        if DEBUG_LOG:
+        if self.DEBUG_LOG:
             logger.info('get_user_details() - response: {}'.format(response))
 
         fullname, first_name, last_name = self.get_user_names(
@@ -142,7 +141,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
-        if DEBUG_LOG:
+        if self.DEBUG_LOG:
             logger.info('user_data() - entered')
 
         url = self.user_query() + urlencode({
@@ -160,7 +159,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     @property
     def base_url(self):
-        if DEBUG_LOG:
+        if self.DEBUG_LOG:
             logger.info('base_url() - settings.NYSPMA_BACKEND_BASE_URL: {}'.format(settings.NYSPMA_BACKEND_BASE_URL))
 
         if settings.NYSPMA_BACKEND_BASE_URL:
@@ -169,31 +168,31 @@ class NYSPMAOAuth2(BaseOAuth2):
         return 'https://associationdatabase.com'
 
     def authorization_url(self):
-        if DEBUG_LOG:
+        if self.DEBUG_LOG:
             logger.info('authorization_url() - settings.NYSPMA_BACKEND_AUTHORIZATION_URL: {}'.format(settings.NYSPMA_BACKEND_AUTHORIZATION_URL))
 
         return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
 
     def access_token_url(self):
-        if DEBUG_LOG:
+        if self.DEBUG_LOG:
             logger.info('access_token_url() - settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL: {}'.format(settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL))
 
         return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
 
     def user_query(self):
-        if DEBUG_LOG:
+        if self.DEBUG_LOG:
             logger.info('user_query() - settings.NYSPMA_BACKEND_USER_QUERY: {}'.format(settings.NYSPMA_BACKEND_USER_QUERY))
 
         return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_USER_QUERY
 
     def urlopen(self, url):
-        if DEBUG_LOG:
+        if self.DEBUG_LOG:
             logger.info('urlopen() - url: {}'.format(url))
 
         return urlopen(url).read().decode("utf-8")
 
     def get_key_and_secret(self):
-        if DEBUG_LOG:
+        if self.DEBUG_LOG:
             logger.info('get_key_and_secret() - client_id: {}'.format(settings.NYSPMA_BACKEND_CLIENT_ID))
 
         return (settings.NYSPMA_BACKEND_CLIENT_ID, settings.NYSPMA_BACKEND_CLIENT_SECRET)
