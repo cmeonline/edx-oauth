@@ -161,28 +161,28 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     @property
     def base_url(self):
-        url = _build_url(self,
+        url = self._build_url(self,
                         'base_url',
                         settings.NYSPMA_BACKEND_BASE_URL,
                         self.DEFAULT_BASE_URL)
         return url
 
     def authorization_url(self):
-        url = _build_url(self,
+        url = self._build_url(self,
                         'authorization_url',
                         settings.NYSPMA_BACKEND_AUTHORIZATION_URL,
                         '/oauth/authorize')
         return url
 
     def access_token_url(self):
-        url = _build_url(self,
+        url = self._build_url(self,
                         'access_token_url',
                         settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL,
                         '/oauth/token')
         return url
 
     def user_query(self):
-        url = _build_url(self,
+        url = self._build_url(self,
                         'user_query',
                         settings.NYSPMA_BACKEND_USER_QUERY,
                         '/api/user?')
