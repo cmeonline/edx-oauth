@@ -76,6 +76,8 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     don't change these.
     """
+    AUTHORIZATION_URL = 'https://staging.associationdatabase.com/oauth/authorize'
+    ACCESS_TOKEN_URL = 'https://staging.associationdatabase.com/oauth/access_token'
     SOCIAL_AUTH_SANITIZE_REDIRECTS = False
     REQUEST_TOKEN_METHOD = 'POST'
     ACCESS_TOKEN_METHOD = 'POST'
@@ -101,11 +103,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     ## module initializations in the future.
     def __init__(self, *args, **kwargs):
         if self.DEBUG_LOG:
-            logger.info('__init__. AUTHORIZATION_URL: {auth}, ACCESS_TOKEN_URL: {token}, USER_QUERY: {usr}'.format(
-                auth = self.authorization_url(),
-                token = self.access_token_url(),
-                usr = self.user_query()
-            ))
+            logger.info('__init__()')
 
         super(NYSPMAOAuth2, self).__init__(*args, **kwargs)
 
@@ -169,6 +167,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         else:
             return self.DEFAULT_BASE_URL
 
+    """
     def authorization_url(self):
         url = self._build_url('authorization_url',
                             settings.NYSPMA_BACKEND_AUTHORIZATION_URL,
@@ -180,6 +179,7 @@ class NYSPMAOAuth2(BaseOAuth2):
                             settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL,
                             self.DEFAULT_ACCESS_TOKEN_URL)
         return url
+    """
 
     def user_query(self):
         url = self._build_url('user_query',
