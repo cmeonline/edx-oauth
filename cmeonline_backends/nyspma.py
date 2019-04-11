@@ -161,10 +161,10 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     @property
     def base_url(self):
-        url = self._build_url('base_url',
-                            settings.NYSPMA_BACKEND_BASE_URL,
-                            self.DEFAULT_BASE_URL)
-        return url
+        if settings.NYSPMA_BACKEND_BASE_URL:
+            return settings.NYSPMA_BACKEND_BASE_URL
+        else:
+            return self.DEFAULT_BASE_URL
 
     def authorization_url(self):
         url = self._build_url('authorization_url',
