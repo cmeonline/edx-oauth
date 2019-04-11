@@ -62,6 +62,9 @@ class NYSPMAOAuth2(BaseOAuth2):
                                 # "Add Provider Configuration (OAuth)" screen
 
     DEFAULT_BASE_URL = 'https://associationdatabase.com'
+    DEFAULT_ACCESS_TOKEN_URL = '/oauth/token'
+    DEFAULT_AUTHORIZATION_URL = '/oauth/authorize'
+    DEFAULT_USER_QUERY = '/api/user?'
 
     DEBUG_LOG = True            # true if you want to create a log trace of
                                 # calls to this module.
@@ -169,19 +172,19 @@ class NYSPMAOAuth2(BaseOAuth2):
     def authorization_url(self):
         url = self._build_url('authorization_url',
                             settings.NYSPMA_BACKEND_AUTHORIZATION_URL,
-                            '/oauth/authorize')
+                            self.DEFAULT_AUTHORIZATION_URL)
         return url
 
     def access_token_url(self):
         url = self._build_url('access_token_url',
                             settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL,
-                            '/oauth/token')
+                            self.DEFAULT_ACCESS_TOKEN_URL)
         return url
 
     def user_query(self):
         url = self._build_url('user_query',
                             settings.NYSPMA_BACKEND_USER_QUERY,
-                            '/api/user?')
+                            self.DEFAULT_USER_QUERY)
         return url
 
     def urlopen(self, url):
@@ -203,4 +206,7 @@ class NYSPMAOAuth2(BaseOAuth2):
             url = self.base_url + default_url
 
         if self.DEBUG_LOG:
-            logger.info('url_type(): {}'.format(url))
+            logger.info('{url_type}: {url}'.format(
+                url = url,
+                url_type = url_type
+                ))
