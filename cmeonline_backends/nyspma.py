@@ -149,7 +149,10 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     @property
     def base_url(self):
-        return settings.NYSPMA_BACKEND_BASE_URL
+        if settings.NYSPMA_BACKEND_BASE_URL:
+            return settings.NYSPMA_BACKEND_BASE_URL
+
+        return 'https://associationdatabase.com'
 
     def authorization_url(self):
         return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
