@@ -59,16 +59,16 @@ class NYSPMAOAuth2(BaseOAuth2):
     DEBUG_LOG = True            # true if you want to create a log trace of
                                 # calls to this module.
 
-    ID_KEY = 'email_address'    # determines which json key
-                                # contains the id value identifying
-                                # the user on the identity provider server
 
     """
     don't change these.
     """
-    AUTHORIZATION_URL = 'https://staging.associationdatabase.com/oauth/authorize'
-    ACCESS_TOKEN_URL = 'https://staging.associationdatabase.com/oauth/access_token'
-    SOCIAL_AUTH_SANITIZE_REDIRECTS = False
+    ID_KEY = 'email_address'    # determines which json key
+                                # contains the id value identifying
+                                # the user on the identity provider server
+    BASE_URL = 'https://staging.associationdatabase.com'
+    AUTHORIZATION_URL = BASE_URL + '/oauth/authorize'
+    ACCESS_TOKEN_URL = BASE_URL + '/oauth/access_token'
     ACCESS_TOKEN_METHOD = 'POST'
     REDIRECT_STATE = False
 
