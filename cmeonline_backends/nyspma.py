@@ -61,6 +61,7 @@ class NYSPMAOAuth2(BaseOAuth2):
                                 # drop-down box, "Backend name" in the
                                 # "Add Provider Configuration (OAuth)" screen
 
+    DEFAULT_BASE_URL = 'https://associationdatabase.com'
 
     DEBUG_LOG = True            # true if you want to create a log trace of
                                 # calls to this module.
@@ -153,8 +154,10 @@ class NYSPMAOAuth2(BaseOAuth2):
 
     """
     these are hooks to enable customation of the principal
-    oauth end points in the event of future implementation of versioning,
-    staging / qa servers, etc.
+    oauth end points. presently these will make use of
+    parameter values from lms.env.json to the extent that these exist.
+
+    they otherwise generate default oauth2 end points
     """
     @property
     def base_url(self):
@@ -164,12 +167,12 @@ class NYSPMAOAuth2(BaseOAuth2):
         if settings.NYSPMA_BACKEND_BASE_URL:
             return settings.NYSPMA_BACKEND_BASE_URL
 
-        return 'https://associationdatabase.com'
+        return self.DEFAULT_BASE_URL
 
     def authorization_url(self):
 
-        if settings.NYSPMA_BACKEND_BASE_URL and settings.NYSPMA_BACKEND_AUTHORIZATION_URL:
-            url = settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
+        if settings.NYSPMA_BACKEND_AUTHORIZATION_URL:
+            url = self.base_url + settings.NYSPMA_BACKEND_AUTHORIZATION_URL
         else:
             url = self.base_url + '/oauth/authorize'
 
@@ -179,16 +182,26 @@ class NYSPMAOAuth2(BaseOAuth2):
         return url
 
     def access_token_url(self):
-        if self.DEBUG_LOG:
-            logger.info('access_token_url() - settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL: {}'.format(settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL))
+        if settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL:
+            url = self.base_url + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
+        else:
+            url = self.base_url + '/oauth/token'
 
-        return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL
+        if self.DEBUG_LOG:
+            logger.info('access_token_url(): {}'.format(url))
+
+        return url
 
     def user_query(self):
-        if self.DEBUG_LOG:
-            logger.info('user_query() - settings.NYSPMA_BACKEND_USER_QUERY: {}'.format(settings.NYSPMA_BACKEND_USER_QUERY))
+        if settings.NYSPMA_BACKEND_USER_QUERY:
+            url = self.base_url + settings.NYSPMA_BACKEND_USER_QUERY
+        else:
+            url = self.base_url + '/api/user?'
 
-        return settings.NYSPMA_BACKEND_BASE_URL + settings.NYSPMA_BACKEND_USER_QUERY
+        if self.DEBUG_LOG:
+            logger.info('user_query(): {}'.format(url))
+
+        return url
 
     def urlopen(self, url):
         if self.DEBUG_LOG:
