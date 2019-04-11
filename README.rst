@@ -11,7 +11,6 @@ This package was originally cloned from https://github.com/appsembler/trinity-oa
 This package is structured so that it can be uploaded to PyPI and installed using pip or easyinstall.
 More detail here: https://python-packaging.readthedocs.io/en/latest/minimal.html
 
-* added Travis.
 
 Installation
 --------
@@ -55,7 +54,7 @@ This package can alternatively be installed directly from its github repo using 
 
   "NYSPMA_BACKEND_CLIENT_ID" : "081b8d1---> AN EXAMPLE KEY ---->081b8d11d991702e4dc9f5c928e3d53e",
   "NYSPMA_BACKEND_CLIENT_SECRET" : "123456789---> AN EXAMPLE SECRET ---->d16df7396bd16df7396bd16df7",
-  "NYSPMA_BACKEND_BASE_URL" : "https://staging.associationdatabase.com",
+  "NYSPMA_BACKEND_BASE_URL" : "https://associationdatabase.com",
   "NYSPMA_BACKEND_AUTHORIZATION_URL" : "/oauth/authorize",
   "NYSPMA_BACKEND_ACCESS_TOKEN_URL" : "/oauth/token",
   "NYSPMA_BACKEND_USER_QUERY" : "/api/user?",
@@ -95,6 +94,37 @@ Django model configuration: <LMS URI>/admin/third_party_auth/oauth2providerconfi
 .. image:: docs/django-oauth-config-3.png
 
 
+Identity Provider System (https://associationdatabase.com)
+--------
+For this module to work it is first necessary to create an oauth application on the Identity Provider system associationdatabase.com.
+Key contacts for this platform are:
+  - David Zachrich dave@tcssoftware.com
+  - Tim Rorris tim@tcssoftware.com
+For reference, the current settings are as follows.
+
+.. image:: docs/associationdatabase.com-oauth-app.png
+
+
+SSO Endpoints
+-------------
+The backend consumes the following URLs:
+
+-  **User Query** ``https://associationdatabase.com/api/user?``
+-  **Registration:** ``https://associationdatabase.com/register``
+-  **Login:** ``DO NOT YET HAVE THIS VALUE.``
+-  ``AUTHORIZATION_URL``:
+   ``https://associationdatabase.com/oauth/authorize``
+-  ``ACCESS_TOKEN_URL``:
+   ``https://associationdatabase.com/oauth/token``
+
+The OAuth server provides the following information about the user:
+
+- ``email``
+- ``username``
+- ``first_name``
+- ``last_name``
+- ``full_name``
+
 
 License
 -------
@@ -111,42 +141,3 @@ The backend depends on Python Social Auth. It is only compatible with the
 `new split Python Social Auth
 <https://github.com/python-social-auth/>`_
 that is being used on Ginkgo and upcoming releases.
-
-SSO Endpoints
--------------
-The backend consumes the following URLs:
-
--  **User Query** ``https://olp-bie.dev.ciservers.net/api/user?``
--  **Registration:** ``https://olp-bie.dev.ciservers.net/register``
--  **Login:** ``https://olp-bie.dev.ciservers.net/oauth/v2/auth/login``
--  ``AUTHORIZATION_URL``:
-   ``https://olp-bie.dev.ciservers.net/oauth/authorize``
--  ``ACCESS_TOKEN_URL``:
-   ``https://olp-bie.dev.ciservers.net/oauth/token``
-
-When using the ``staging`` environment (see below), the domain
-``[ALTERNATE DOMAIN NAME]]`` is used instead.
-
-The OAuth server provides the following information about the user:
-
-- ``email``
-- ``username``
-- ``first_name``
-- ``last_name``
-- ``full_name``
-
-Backend Extra Settings
-----------------------
-In addition to the usual client, secret key and other settings.
-This backend requires the ``ENVIRONMENT`` configuration:
-
-
-::
-
-  SOCIAL_AUTH_ENVIRONMENT = 'staging'  # or 'production'
-
-In Open edX, this is usually set via the admin panel in the backend's **Other Settings** field:
-
-::
-
-  { "ENVIRONMENT": "production" }
