@@ -57,7 +57,9 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     NYSPMA OAuth authentication backend.
     """
-    name = 'nyspma'
+    name = 'nyspma'             # to set the name that appears in the django admin
+                                # drop-down box, "Backend name" in the
+                                # "Add Provider Configuration (OAuth)" screen
 
 
     ID_KEY = 'email_address'    # determines which json key
@@ -65,18 +67,21 @@ class NYSPMAOAuth2(BaseOAuth2):
                                 # the user on the identity provider server
 
     """
-    the following values are either provided directly be the identity provider
-    admin team. in this case:
+    don't change these.
     """
     SOCIAL_AUTH_SANITIZE_REDIRECTS = False
     REQUEST_TOKEN_METHOD = 'POST'
     ACCESS_TOKEN_METHOD = 'POST'
-    SCOPE_SEPARATOR = ' '
-    DEFAULT_SCOPE = ['public', 'write']
     REDIRECT_STATE = False
 
+    """
+    these are provided directly by TCS Software.
+    """
+    SCOPE_SEPARATOR = ' '
+    DEFAULT_SCOPE = ['public', 'write']
+
     ## these i'm not entirely sure about. i believe that downstream consumers
-    ## of authentication response -- in the 3rd party auth pipeline -- might
+    ## of the authentication response -- in the 3rd party auth pipeline -- might
     ## receive a parameter re "extra data" but as of yet i have not see any
     ## examples of how this works.
     EXTRA_DATA = [
