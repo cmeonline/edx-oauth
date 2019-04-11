@@ -26,10 +26,6 @@ Installation:   This modules assumes the existence of several python constants.
                 1. For Open edX the following must be added to aws.py:
                 NYSPMA_BACKEND_CLIENT_ID = ENV_TOKENS.get('NYSPMA_BACKEND_CLIENT_ID', None)
                 NYSPMA_BACKEND_CLIENT_SECRET = ENV_TOKENS.get('NYSPMA_BACKEND_CLIENT_SECRET', None)
-                NYSPMA_BACKEND_BASE_URL = ENV_TOKENS.get('NYSPMA_BACKEND_BASE_URL', None)
-                NYSPMA_BACKEND_AUTHORIZATION_URL = ENV_TOKENS.get('NYSPMA_BACKEND_AUTHORIZATION_URL', None)
-                NYSPMA_BACKEND_ACCESS_TOKEN_URL = ENV_TOKENS.get('NYSPMA_BACKEND_ACCESS_TOKEN_URL', None)
-                NYSPMA_BACKEND_USER_QUERY = ENV_TOKENS.get('NYSPMA_BACKEND_USER_QUERY', None)
 
                 * the production implementation adds default values based on whatever the client provided
                   leading up to deployment.
@@ -46,7 +42,6 @@ import json
 from urllib import urlencode
 from urllib2 import urlopen
 from social_core.backends.oauth import BaseOAuth2
-from social_core.exceptions import AuthException
 from django.conf import settings
 
 from logging import getLogger
@@ -61,11 +56,6 @@ class NYSPMAOAuth2(BaseOAuth2):
                                 # drop-down box, "Backend name" in the
                                 # "Add Provider Configuration (OAuth)" screen
 
-    DEFAULT_BASE_URL = 'https://associationdatabase.com'
-    DEFAULT_ACCESS_TOKEN_URL = '/oauth/token'
-    DEFAULT_AUTHORIZATION_URL = '/oauth/authorize'
-    DEFAULT_USER_QUERY = '/api/user?'
-
     DEBUG_LOG = True            # true if you want to create a log trace of
                                 # calls to this module.
 
@@ -79,7 +69,6 @@ class NYSPMAOAuth2(BaseOAuth2):
     AUTHORIZATION_URL = 'https://staging.associationdatabase.com/oauth/authorize'
     ACCESS_TOKEN_URL = 'https://staging.associationdatabase.com/oauth/access_token'
     SOCIAL_AUTH_SANITIZE_REDIRECTS = False
-    REQUEST_TOKEN_METHOD = 'POST'
     ACCESS_TOKEN_METHOD = 'POST'
     REDIRECT_STATE = False
 
@@ -98,14 +87,6 @@ class NYSPMAOAuth2(BaseOAuth2):
         ('org_id', 'org_id'),
         ('date_joined', 'date_joined')
     ]
-
-    ## this is a hook in the event that we might want to get fancier with
-    ## module initializations in the future.
-    def __init__(self, *args, **kwargs):
-        if self.DEBUG_LOG:
-            logger.info('__init__()')
-
-        super(NYSPMAOAuth2, self).__init__(*args, **kwargs)
 
     #def get_user_id(self, details, response):
     #    return response['id']
@@ -153,60 +134,8 @@ class NYSPMAOAuth2(BaseOAuth2):
         except ValueError:
             return None
 
-    """
-    these are hooks to enable customation of the principal
-    oauth end points. presently these will make use of
-    parameter values from lms.env.json to the extent that these exist.
-
-    they otherwise generate default oauth2 end points
-    """
-    @property
-    def base_url(self):
-        if settings.NYSPMA_BACKEND_BASE_URL:
-            return settings.NYSPMA_BACKEND_BASE_URL
-        else:
-            return self.DEFAULT_BASE_URL
-
-    """
-    def authorization_url(self):
-        url = self._build_url('authorization_url',
-                            settings.NYSPMA_BACKEND_AUTHORIZATION_URL,
-                            self.DEFAULT_AUTHORIZATION_URL)
-        return url
-
-    def access_token_url(self):
-        url = self._build_url('access_token_url',
-                            settings.NYSPMA_BACKEND_ACCESS_TOKEN_URL,
-                            self.DEFAULT_ACCESS_TOKEN_URL)
-        return url
-    """
-
-    def user_query(self):
-        url = self._build_url('user_query',
-                            settings.NYSPMA_BACKEND_USER_QUERY,
-                            self.DEFAULT_USER_QUERY)
-        return url
-
-    def urlopen(self, url):
-        if self.DEBUG_LOG:
-            logger.info('urlopen() - url: {}'.format(url))
-
-        return urlopen(url).read().decode("utf-8")
-
     def get_key_and_secret(self):
         if self.DEBUG_LOG:
             logger.info('get_key_and_secret() - client_id: {}'.format(settings.NYSPMA_BACKEND_CLIENT_ID))
 
         return (settings.NYSPMA_BACKEND_CLIENT_ID, settings.NYSPMA_BACKEND_CLIENT_SECRET)
-
-    def _build_url(self, url_type, setting_url, default_url):
-        if setting_url:
-            url = self.base_url + setting_url
-        else:
-            url = self.base_url + default_url
-
-        if self.DEBUG_LOG:
-            logger.info('{url_type}: {url}'.format(
-                url = url,
-                url_type = url_type
-                ))
