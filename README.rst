@@ -24,7 +24,7 @@ The high-level installation process exactly follows the Open edX documentation: 
 
     sudo -H -u edxapp bash
     source /edx/app/edxapp/edxapp_env
-    pip install git+https://github.com/lpm0073/edx-oauth-nyspma.git
+    /edx/bin/pip.edxapp install --upgrade git+https://github.com/cmeonline/edx-oauth.git
 
     # Verify that installation was successful.
     # Look for pip package: edx-oauth-nyspma (0.1.0)
@@ -36,7 +36,7 @@ This package can alternatively be installed directly from its github repo using 
 
     setup(
     ...
-      dependency_links=['https://github.com/lpm0073/edx-oauth-nyspma.git']
+      dependency_links=['https://github.com/cmeonline/edx-oauth.git']
     ...
     )
 
@@ -46,11 +46,22 @@ This package can alternatively be installed directly from its github repo using 
 ::
 
   "THIRD_PARTY_AUTH_BACKENDS": [
-            "edx-oauth-nyspma.olp-bie.OlpOAuth2"
+            "cmeonline_backends.nyspma.NYSPMAOAuth2"
         ]
 
+**3. Add configuration parameters to /edx/app/edxapp/lms.env.json**
 
-**3. Set Open edX LMS app feature flags in /edx/app/edxapp/lms.env.json**
+::
+
+  "NYSPMA_BACKEND_CLIENT_ID" : "081b8d1---> AN EXAMPLE KEY ---->081b8d11d991702e4dc9f5c928e3d53e",
+  "NYSPMA_BACKEND_CLIENT_SECRET" : "123456789---> AN EXAMPLE SECRET ---->d16df7396bd16df7396bd16df7",
+  "NYSPMA_BACKEND_BASE_URL" : "https://staging.associationdatabase.com",
+  "NYSPMA_BACKEND_AUTHORIZATION_URL" : "/oauth/authorize",
+  "NYSPMA_BACKEND_ACCESS_TOKEN_URL" : "/oauth/token",
+  "NYSPMA_BACKEND_USER_QUERY" : "/api/user?",
+
+
+**4. Set Open edX LMS app feature flags in /edx/app/edxapp/lms.env.json**
 
 ::
 
@@ -60,11 +71,19 @@ This package can alternatively be installed directly from its github repo using 
       "ENABLE_THIRD_PARTY_AUTH": true
   }
 
+**5. Add Python constants to  /edx/app/edxapp/edx-platform/lms/envs/aws.py**
+
+::
+
+  NYSPMA_BACKEND_CLIENT_ID = ENV_TOKENS.get('NYSPMA_BACKEND_CLIENT_ID', None)
+  NYSPMA_BACKEND_CLIENT_SECRET = ENV_TOKENS.get('NYSPMA_BACKEND_CLIENT_SECRET', None)
+  NYSPMA_BACKEND_BASE_URL = ENV_TOKENS.get('NYSPMA_BACKEND_BASE_URL', 'https://associationdatabase.com')
+  NYSPMA_BACKEND_AUTHORIZATION_URL = ENV_TOKENS.get('NYSPMA_BACKEND_AUTHORIZATION_URL', '/oauth/authorize')
+  NYSPMA_BACKEND_ACCESS_TOKEN_URL = ENV_TOKENS.get('NYSPMA_BACKEND_ACCESS_TOKEN_URL', '/oauth/token')
+  NYSPMA_BACKEND_USER_QUERY = ENV_TOKENS.get('NYSPMA_BACKEND_USER_QUERY', '/api/user?')
 
 
-
-
-**4. Register a Third Party Authorization configuration profile in Django Admin**
+**6. Register a Third Party Authorization configuration profile in Django Admin**
 
 Refer to instructions in edx.readthedocs.io "4.22.3.2.1.1.3. Add the Provider Configuration" on configuring this oAuth consumer. This is a simple form for configuring the appearance of the button face on the login and registration forms on the LMS and AM.
 
