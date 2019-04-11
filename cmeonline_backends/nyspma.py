@@ -53,9 +53,6 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     NYSPMA OAuth authentication backend.
     """
-    if self.DEBUG_LOG:
-        logger.info('NYSPMAOAuth2 - instantiated')
-
     name = 'nyspma'             # to set the name that appears in the django admin
                                 # drop-down box, "Backend name" in the
                                 # "Add Provider Configuration (OAuth)" screen
