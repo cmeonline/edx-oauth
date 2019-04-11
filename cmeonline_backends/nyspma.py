@@ -49,6 +49,10 @@ from social_core.backends.oauth import BaseOAuth2
 from social_core.exceptions import AuthException
 from django.conf import settings
 
+from logging import getLogger
+logger = getLogger(__name__)
+
+
 class NYSPMAOAuth2(BaseOAuth2):
     """
     NYSPMA OAuth authentication backend.
@@ -93,8 +97,6 @@ class NYSPMAOAuth2(BaseOAuth2):
     ## module initializations in the future.
     def __init__(self, *args, **kwargs):
         if self.DEBUG_LOG:
-            from logging import getLogger
-            logger = getLogger(__name__)
             logger.info('__init__. AUTHORIZATION_URL: {auth}, ACCESS_TOKEN_URL: {token}, USER_QUERY: {usr}'.format(
                 auth = self.authorization_url(),
                 token = self.access_token_url(),
