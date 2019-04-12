@@ -96,6 +96,31 @@ class NYSPMAOAuth2(BaseOAuth2):
     #def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
     #    return details['username']
 
+
+    def authorization_url(self):
+        url = self.AUTHORIZATION_URL
+        if self.DEBUG_LOG:
+            logger.info('authorization_url(): {}'.format(url))
+        return url
+
+    def access_token_url(self):
+        url = self.ACCESS_TOKEN_URL
+        if self.DEBUG_LOG:
+            logger.info('access_token_url(): {}'.format(url))
+        return url
+
+    def user_query(self):
+        url = self.USER_QUERY
+        if self.DEBUG_LOG:
+            logger.info('user_query(): {}'.format(url))
+        return url
+
+    def urlopen(self, url):
+        if self.DEBUG_LOG:
+            logger.info('urlopen() - url: {}'.format(url))
+        return urlopen(url).read().decode("utf-8")
+
+
     """
     i believe that this is the json object that gets consumed within consumers
     of the 3rd party pipeline. we want these keys to match up with whatever
