@@ -67,7 +67,7 @@ class NYSPMAOAuth2(BaseOAuth2):
                                 # contains the id value identifying
                                 # the user on the identity provider server
     BASE_URL = 'https://associationdatabase.com'
-    AUTHORIZATION_URL = BASE_URL + '/oauth/authorize/nyspma/'
+    AUTHORIZATION_URL = BASE_URL + '/oauth/authorize/'
     ACCESS_TOKEN_URL = BASE_URL + '/oauth/access_token/nyspma/'
     ACCESS_TOKEN_METHOD = 'POST'
     REDIRECT_STATE = False
