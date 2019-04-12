@@ -68,7 +68,7 @@ class NYSPMAOAuth2(BaseOAuth2):
                                 # the user on the identity provider server
     BASE_URL = 'https://associationdatabase.com'
     AUTHORIZATION_URL = BASE_URL + '/oauth/authorize'
-    ACCESS_TOKEN_URL = BASE_URL + '/oauth/access_token'
+    ACCESS_TOKEN_URL = BASE_URL + '/oauth/token'
     USER_QUERY = '/api/user?'
 
     ACCESS_TOKEN_METHOD = 'POST'
