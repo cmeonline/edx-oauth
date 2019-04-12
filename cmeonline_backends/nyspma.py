@@ -66,9 +66,11 @@ class NYSPMAOAuth2(BaseOAuth2):
     ID_KEY = 'email_address'    # determines which json key
                                 # contains the id value identifying
                                 # the user on the identity provider server
-    BASE_URL = 'https://associationdatabase.com?org_id=NYSPMA'
-    AUTHORIZATION_URL = BASE_URL + '/oauth/authorize/'
-    ACCESS_TOKEN_URL = BASE_URL + '/oauth/access_token/'
+    BASE_URL = 'https://associationdatabase.com'
+    AUTHORIZATION_URL = BASE_URL + '/oauth/authorize'
+    ACCESS_TOKEN_URL = BASE_URL + '/oauth/access_token'
+    USER_QUERY" : "/api/user?",
+
     ACCESS_TOKEN_METHOD = 'POST'
     REDIRECT_STATE = False
 
