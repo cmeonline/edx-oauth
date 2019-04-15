@@ -90,12 +90,15 @@ class NYSPMAOAuth2(BaseOAuth2):
         ('date_joined', 'date_joined')
     ]
 
-    #def get_user_id(self, details, response):
-    #    return response['id']
+    def get_user_id(self, details, response):
+        if self.DEBUG_LOG:
+            logger.info('get_user_id() - response: {}'.format(response))
+        return response['id']
 
-    #def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
-    #    return details['username']
-
+    def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
+        if self.DEBUG_LOG:
+            logger.info('get_username() - details: {}'.format(details))
+        return details['username']
 
     def authorization_url(self):
         url = self.AUTHORIZATION_URL
