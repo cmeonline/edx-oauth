@@ -99,15 +99,6 @@ class NYSPMAOAuth2(BaseOAuth2):
     ]
 
     """
-    def get_user_id(self, details, response):
-        if self.DEBUG_LOG:
-            logger.info('get_user_id() - response: {}'.format(details))
-        return details['username']
-
-    def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
-        if self.DEBUG_LOG:
-            logger.info('get_username() - details: {}'.format(details))
-        return details['username']
 
     def login_url(self):
         url = self.LOGIN_URL
@@ -127,17 +118,27 @@ class NYSPMAOAuth2(BaseOAuth2):
             logger.info('access_token_url(): {}'.format(url))
         return url
 
-    def urlopen(self, url):
-        if self.DEBUG_LOG:
-            logger.info('urlopen() - url: {}'.format(url))
-        return urlopen(url).read().decode("utf-8")
     """
+    def get_user_id(self, details, response):
+        if self.DEBUG_LOG:
+            logger.info('get_user_id() - response: {}'.format(details))
+        return details['username']
+
+    def get_username(self, strategy, details, backend, user=None, *args, **kwargs):
+        if self.DEBUG_LOG:
+            logger.info('get_username() - details: {}'.format(details))
+        return details['username']
 
     def user_query(self):
         url = self.USER_QUERY
         if self.DEBUG_LOG:
             logger.info('user_query(): {}'.format(url))
         return url
+
+    def urlopen(self, url):
+        if self.DEBUG_LOG:
+            logger.info('urlopen() - url: {}'.format(url))
+        return urlopen(url).read().decode("utf-8")
 
 
     """
