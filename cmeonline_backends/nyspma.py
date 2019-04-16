@@ -70,7 +70,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     reference docs for these settings:
     https://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html
     """
-    BASE_URL = 'https://associationdatabase.com/aws/NYSPMA'
+    BASE_URL = 'https://associationdatabase.com'
     AUTHORIZATION_URL = BASE_URL + '/oauth/authorize'
     ACCESS_TOKEN_URL = BASE_URL + '/oauth/token'
     USER_QUERY = BASE_URL + '/api/user?'
