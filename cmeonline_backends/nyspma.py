@@ -139,6 +139,46 @@ class NYSPMAOAuth2(BaseOAuth2):
 
     more details: https://github.com/edx/edx-platform/tree/master/common/djangoapps/third_party_auth
     """
+    def get_user_details(self, response):
+        """Return user details from NYSPMA account"""
+        if self.DEBUG_LOG:
+            logger.info('get_user_details() - response: {}'.format(response))
+
+        access_token = response['access_token']
+        user_details = self.user_data(access_token)
+        first_name = user_details['first_name']
+        last_name = user_details['last_name']
+        fullname = first_name + ' ' + last_name
+
+        retval = dict([
+            ('username', user_details.get('id')),
+            ('email', user_details.get('email_address', '')),
+            ('fullname', fullname),
+            ('first_name', first_name),
+            ('last_name', last_name)
+        ])
+
+        if self.DEBUG_LOG:
+            logger.info('get_user_details() - retval: {}'.format(retval))
+
+        return retval
+
+    """
+    this will return a json object that exactly matches whatever the
+    identify provider sends.
+    """
+    def user_data(self, access_token, *args, **kwargs):
+        """Loads user data from service"""
+        if self.DEBUG_LOG:
+            logger.info('user_data() - entered')
+
+        url = self.user_query() + urlencode({
+            'access_token': access_token
+        })
+        try:
+            return json.loads(self.urlopen(url))
+        except ValueError:
+            return None
 
 
     def get_key_and_secret(self):
