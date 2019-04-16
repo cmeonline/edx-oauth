@@ -117,7 +117,7 @@ class NYSPMAOAuth2(BaseOAuth2):
 
         if self.DEBUG_LOG:
             logger.info('authorization_url(): {}'.format(url))
-        return req.url
+        return url
 
     def access_token_url(self):
         url = self.ACCESS_TOKEN_URL
