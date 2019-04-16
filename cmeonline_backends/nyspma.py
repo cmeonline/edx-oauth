@@ -108,11 +108,11 @@ class NYSPMAOAuth2(BaseOAuth2):
     def authorization_url(self):
         from requests.models import PreparedRequest
         req = PreparedRequest()
-
+        url = self.AUTHORIZATION_URL
         params = {'org_id':"NYSPMA"}
+
         req.prepare_url(url, params)
 
-        url = self.AUTHORIZATION_URL
         if self.DEBUG_LOG:
             logger.info('authorization_url(): {}'.format(req.url))
         return req.url
