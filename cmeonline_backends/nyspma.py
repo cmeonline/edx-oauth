@@ -70,7 +70,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     reference docs for these settings:
     https://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html
     """
-    BASE_URL = 'https://associationdatabase.com'
+    BASE_URL = 'https://associationdatabase.com/aws/NYSPMA'
     AUTHORIZATION_URL = BASE_URL + '/oauth/authorize'
     ACCESS_TOKEN_URL = BASE_URL + '/oauth/token'
     USER_QUERY = BASE_URL + '/api/user?'
@@ -108,15 +108,15 @@ class NYSPMAOAuth2(BaseOAuth2):
         """
         ref on url parameters: https://markhneedham.com/blog/2019/01/11/python-add-query-parameters-url/
         """
-        from requests.models import PreparedRequest
-        req = PreparedRequest()
+        #from requests.models import PreparedRequest
+        #req = PreparedRequest()
+        #params = {'org_id':"NYSPMA"}
         url = self.AUTHORIZATION_URL
-        params = {'org_id':"NYSPMA"}
 
-        req.prepare_url(url, params)
+        #req.prepare_url(url, params)
 
         if self.DEBUG_LOG:
-            logger.info('authorization_url(): {}'.format(req.url))
+            logger.info('authorization_url(): {}'.format(url))
         return req.url
 
     def access_token_url(self):
