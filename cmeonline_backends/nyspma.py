@@ -146,13 +146,15 @@ class NYSPMAOAuth2(BaseOAuth2):
 
         access_token = response['access_token']
         user_details = self.user_data(access_token)
+        username = str(user_details.get('id')))
+        email = user_details.get('email_address', ''))
         first_name = user_details['first_name']
         last_name = user_details['last_name']
         fullname = first_name + ' ' + last_name
 
         retval = dict([
-            ('username', user_details.get('id')),
-            ('email', user_details.get('email_address', '')),
+            ('username', username,
+            ('email', email,
             ('fullname', fullname),
             ('first_name', first_name),
             ('last_name', last_name)
