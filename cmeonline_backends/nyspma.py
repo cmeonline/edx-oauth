@@ -175,7 +175,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         url = self.user_query() + urlencode({
             'access_token': access_token
         })
-        return = json.loads(self.urlopen(url))
+        return json.loads(self.urlopen(url))
 
 
     def get_key_and_secret(self):
