@@ -72,7 +72,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     BASE_URL = 'https://associationdatabase.com'
     #LOGIN_URL = BASE_URL + '/aws/NYSPMA/login/login'
-    AUTHORIZATION_URL = BASE_URL + '/oauth/authorize'
+    AUTHORIZATION_URL = BASE_URL + '/aws/NYSPMA/oauth/authorize'
     ACCESS_TOKEN_URL = BASE_URL + '/oauth/token'
     USER_QUERY = BASE_URL + '/api/user?'
 
@@ -106,10 +106,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
 
     def authorization_url(self):
-        url = self.AUTHORIZATION_URL + '?' + urlencode({
-            'org_id': 'NYSPMA'
-        })
-
+        url = self.AUTHORIZATION_URL
         if self.DEBUG_LOG:
             logger.info('authorization_url(): {}'.format(url))
         return url
