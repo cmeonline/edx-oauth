@@ -78,6 +78,10 @@ class NYSPMAOAuth2(BaseOAuth2):
     ACCESS_TOKEN_METHOD = 'POST'
     REDIRECT_STATE = False
 
+    SOCIAL_AUTH_NYSPMA_AUTH_EXTRA_ARGUMENTS = {
+    'org_id': 'NYSPMA'
+    }
+
     """
     these are provided directly by TCS Software.
     """
