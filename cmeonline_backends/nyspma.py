@@ -106,7 +106,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
 
     def authorization_url(self):
-        url = self.AUTHORIZATION_URL + urlencode({
+        url = self.AUTHORIZATION_URL + '/?' + urlencode({
             'org_id': 'NYSPMA'
         })
 
