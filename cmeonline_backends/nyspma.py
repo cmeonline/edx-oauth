@@ -150,6 +150,13 @@ class NYSPMAOAuth2(BaseOAuth2):
             logger.info('urlopen() - url: {}'.format(url))
         return urlopen(url).read().decode("utf-8")
 
+    def auth_extra_arguments(self):
+        """Return extra arguments needed on auth process. The defaults can be
+        overridden by GET parameters."""
+        extra_arguments = self.AUTH_EXTRA_ARGUMENTS
+        #extra_arguments.update((key, self.data[key]) for key in extra_arguments
+        #                            if key in self.data)
+        return extra_arguments
 
     """
     i believe that this is the json object that gets consumed within consumers
