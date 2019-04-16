@@ -101,24 +101,13 @@ class NYSPMAOAuth2(BaseOAuth2):
     """
     most of these defs are just scaffolding in the event of need for
     modifications in future.
-    def login_url(self):
-        url = self.LOGIN_URL
-        if self.DEBUG_LOG:
-            logger.info('login_url(): {}'.format(url))
-        return url
     """
 
     def authorization_url(self):
         """
         ref on url parameters: https://markhneedham.com/blog/2019/01/11/python-add-query-parameters-url/
         """
-        #from requests.models import PreparedRequest
-        #req = PreparedRequest()
-        #params = {'org_id':"NYSPMA"}
         url = self.AUTHORIZATION_URL
-
-        #req.prepare_url(url, params)
-
         if self.DEBUG_LOG:
             logger.info('authorization_url(): {}'.format(url))
         return url
@@ -154,8 +143,8 @@ class NYSPMAOAuth2(BaseOAuth2):
         """Return extra arguments needed on auth process. The defaults can be
         overridden by GET parameters."""
         extra_arguments = self.AUTH_EXTRA_ARGUMENTS
-        #extra_arguments.update((key, self.data[key]) for key in extra_arguments
-        #                            if key in self.data)
+        if self.DEBUG_LOG:
+            logger.info('auth_extra_arguments() - : {}'.format(extra_arguments))
         return extra_arguments
 
     """
@@ -170,12 +159,12 @@ class NYSPMAOAuth2(BaseOAuth2):
         if self.DEBUG_LOG:
             logger.info('get_user_details() - response: {}'.format(response))
 
-        access_token = response['access_token']
+        access_token = response.get('access_token')
         user_details = self.user_data(access_token)
         username = str(user_details.get('id'))
         email = user_details.get('email_address', '')
-        first_name = user_details['first_name']
-        last_name = user_details['last_name']
+        first_name = user_details.get('first_name')
+        last_name = user_details.get('last_name')
         fullname = first_name + ' ' + last_name
 
         retval = dict([
