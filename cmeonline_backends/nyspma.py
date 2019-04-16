@@ -62,7 +62,7 @@ class NYSPMAOAuth2(BaseOAuth2):
                                 # drop-down box, "Backend name" in the
                                 # "Add Provider Configuration (OAuth)" screen
 
-    DEBUG_LOG = True            # true if you want to create a log trace of
+    DEBUG_LOG = False            # true if you want to create a log trace of
                                 # calls to this module.
 
 
@@ -70,21 +70,19 @@ class NYSPMAOAuth2(BaseOAuth2):
     reference docs for these settings:
     https://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html
     """
+    ACCESS_TOKEN_METHOD = 'POST'
+    REDIRECT_STATE = False
+
+    """
+    Provided directly by TCS Software.
+    """
     BASE_URL = 'https://associationdatabase.com'
     AUTHORIZATION_URL = BASE_URL + '/oauth/authorize'
     ACCESS_TOKEN_URL = BASE_URL + '/oauth/token'
     USER_QUERY = BASE_URL + '/api/user?'
-
-    ACCESS_TOKEN_METHOD = 'POST'
-    REDIRECT_STATE = False
-
     AUTH_EXTRA_ARGUMENTS = {
     'org_id': 'NYSPMA'
     }
-
-    """
-    these are provided directly by TCS Software.
-    """
     SCOPE_SEPARATOR = ' '
     DEFAULT_SCOPE = ['public', 'write']
 
