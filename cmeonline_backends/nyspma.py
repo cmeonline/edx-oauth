@@ -175,8 +175,10 @@ class NYSPMAOAuth2(BaseOAuth2):
         url = self.user_query() + urlencode({
             'access_token': access_token
         })
+        retval = json.loads(self.urlopen(url))
+
         try:
-            return json.loads(self.urlopen(url))
+            return retval
         except ValueError:
             if self.DEBUG_LOG:
                 logger.info('user_data() - ValueError')
