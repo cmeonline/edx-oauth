@@ -71,7 +71,7 @@ class NYSPMAOAuth2(BaseOAuth2):
     LOGIN_URL = BASE_URL + '/aws/NYSPMA/login/login'
     AUTHORIZATION_URL = BASE_URL + '/oauth/authorize'
     ACCESS_TOKEN_URL = BASE_URL + '/oauth/token'
-    USER_QUERY = '/api/user?'
+    USER_QUERY = BASE_URL + '/api/user?'
 
     ACCESS_TOKEN_METHOD = 'POST'
     REDIRECT_STATE = False
@@ -175,14 +175,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         url = self.user_query() + urlencode({
             'access_token': access_token
         })
-        retval = json.loads(self.urlopen(url))
-
-        try:
-            return retval
-        except ValueError:
-            if self.DEBUG_LOG:
-                logger.info('user_data() - ValueError')
-            return None
+        return = json.loads(self.urlopen(url))
 
 
     def get_key_and_secret(self):
