@@ -37,6 +37,12 @@ References:     https://python-social-auth-docs.readthedocs.io/en/latest/
                 https://github.com/python-social-auth
                 https://github.com/python-social-auth/social-core
                 https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/
+
+Test Users:
+                USER			PASSWORD
+                Testing1@test.com	Testing1
+                Testing2@test.com	Testing2
+                Testing3@test.com	Testing3
 """
 import json
 from urllib import urlencode
@@ -121,17 +127,17 @@ class NYSPMAOAuth2(BaseOAuth2):
             logger.info('access_token_url(): {}'.format(url))
         return url
 
-    def user_query(self):
-        url = self.USER_QUERY
-        if self.DEBUG_LOG:
-            logger.info('user_query(): {}'.format(url))
-        return url
-
     def urlopen(self, url):
         if self.DEBUG_LOG:
             logger.info('urlopen() - url: {}'.format(url))
         return urlopen(url).read().decode("utf-8")
     """
+
+    def user_query(self):
+        url = self.USER_QUERY
+        if self.DEBUG_LOG:
+            logger.info('user_query(): {}'.format(url))
+        return url
 
 
     """
