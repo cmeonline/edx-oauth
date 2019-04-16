@@ -92,6 +92,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         ('date_joined', 'date_joined')
     ]
 
+    """
     def get_user_id(self, details, response):
         if self.DEBUG_LOG:
             logger.info('get_user_id() - response: {}'.format(details))
@@ -130,6 +131,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         if self.DEBUG_LOG:
             logger.info('urlopen() - url: {}'.format(url))
         return urlopen(url).read().decode("utf-8")
+    """
 
 
     """
