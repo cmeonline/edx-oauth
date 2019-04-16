@@ -68,7 +68,7 @@ class NYSPMAOAuth2(BaseOAuth2):
                                 # contains the id value identifying
                                 # the user on the identity provider server
     BASE_URL = 'https://associationdatabase.com'
-    SOCIAL_AUTH_NYSPMA_LOGIN_URL = BASE_URL + '/aws/NYSPMA/login/login'
+    LOGIN_URL = BASE_URL + '/aws/NYSPMA/login/login'
     AUTHORIZATION_URL = BASE_URL + '/oauth/authorize'
     ACCESS_TOKEN_URL = BASE_URL + '/oauth/token'
     USER_QUERY = '/api/user?'
@@ -103,7 +103,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         return details['username']
 
     def login_url(self):
-        url = self.SOCIAL_AUTH_NYSPMA_LOGIN_URL
+        url = self.LOGIN_URL
         if self.DEBUG_LOG:
             logger.info('login_url(): {}'.format(url))
         return url
