@@ -176,7 +176,7 @@ class NYSPMAOAuth2(BaseOAuth2):
             'access_token': access_token
         })
         try:
-            return dict(json.loads(self.urlopen(url)))
+            return json.loads(self.urlopen(url))
         except ValueError:
             if self.DEBUG_LOG:
                 logger.info('user_data() - ValueError')
