@@ -70,11 +70,10 @@ class NYSPMAOAuth2(BaseOAuth2):
     reference docs for these settings:
     https://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html
     """
-    ID_KEY = 'email_address'    # determines which json key
-                                # contains the id value identifying
-                                # the user on the identity provider server
     BASE_URL = 'https://associationdatabase.com'
-    LOGIN_URL = BASE_URL + '/aws/NYSPMA/login/login'
+    #LOGIN_URL = BASE_URL + '/aws/NYSPMA/login/login'
+    INACTIVE_USER_URL = BASE_URL + '/aws/NYSPMA/login/login'
+    LOGIN_REDIRECT_URL = BASE_URL + '/aws/NYSPMA/login/login'
     AUTHORIZATION_URL = BASE_URL + '/oauth/authorize'
     ACCESS_TOKEN_URL = BASE_URL + '/oauth/token'
     USER_QUERY = BASE_URL + '/api/user?'
@@ -99,12 +98,14 @@ class NYSPMAOAuth2(BaseOAuth2):
     ]
 
     """
-
+    most of these defs are just scaffolding in the event of need for
+    modifications in future.
     def login_url(self):
         url = self.LOGIN_URL
         if self.DEBUG_LOG:
             logger.info('login_url(): {}'.format(url))
         return url
+    """
 
     def authorization_url(self):
         url = self.AUTHORIZATION_URL
@@ -118,7 +119,6 @@ class NYSPMAOAuth2(BaseOAuth2):
             logger.info('access_token_url(): {}'.format(url))
         return url
 
-    """
     def get_user_id(self, details, response):
         if self.DEBUG_LOG:
             logger.info('get_user_id() - response: {}'.format(details))
