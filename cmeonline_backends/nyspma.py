@@ -206,7 +206,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         McDaniel May-2019
         try to store the association name in a CME Online custom user field.
     """
-    def _set_association(email):
+    def _set_association(self, email):
         logger.info('_set_association() - {}'.format(email))
 
         try:
