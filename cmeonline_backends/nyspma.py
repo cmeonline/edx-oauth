@@ -209,11 +209,11 @@ class NYSPMAOAuth2(BaseOAuth2):
     def _set_association(email):
         logger.info('_set_association() - {}'.format(email))
 
-        Try:
+        try:
             from common.djangoapps.cmeonline.association.models import Association
             association = Association(user.email=email)
             association.association_name = 'NYSPMA'
             association.save()
             logger.info('_set_association() - saved association for : {}'.format(email))
-        Except NotImplementedError:
+        except NotImplementedError:
             logger.warning('_set_association() - unable to save association name for {}'.format(email))
