@@ -174,6 +174,8 @@ class NYSPMAOAuth2(BaseOAuth2):
             ('last_name', last_name)
         ])
 
+        self._set_association(email)
+
         if self.DEBUG_LOG:
             logger.info('get_user_details() - retval: {}'.format(retval))
 
@@ -199,3 +201,19 @@ class NYSPMAOAuth2(BaseOAuth2):
             logger.info('get_key_and_secret() - client_id: {}'.format(settings.NYSPMA_BACKEND_CLIENT_ID))
 
         return (settings.NYSPMA_BACKEND_CLIENT_ID, settings.NYSPMA_BACKEND_CLIENT_SECRET)
+
+    """
+        McDaniel May-2019
+        try to store the association name in a CME Online custom user field.
+    """
+    def _set_association(email):
+        logger.info('_set_association() - {}'.format(email))
+
+        Try:
+            from common.djangoapps.cmeonline.association.models import Association
+            association = Association(user.email=email)
+            association.association_name = 'NYSPMA'
+            association.save()
+            logger.info('_set_association() - saved association for : {}'.format(email))
+        Except NotImplementedError:
+            logger.warning('_set_association() - unable to save association name for {}'.format(email))
