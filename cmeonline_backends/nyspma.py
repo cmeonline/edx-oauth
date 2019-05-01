@@ -167,6 +167,7 @@ class NYSPMAOAuth2(BaseOAuth2):
 
         retval = dict([
             ('username', username),
+            ('org_id', 'NYSPMA'),
             ('email', email),
             ('fullname', fullname),
             ('first_name', first_name),
