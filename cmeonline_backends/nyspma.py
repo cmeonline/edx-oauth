@@ -210,7 +210,7 @@ class NYSPMAOAuth2(BaseOAuth2):
         logger.info('_set_association() - {}'.format(email))
 
         try:
-            from common.djangoapps.cmeonline.association.models import Association
+            from cmeonline.association.models import Association
             association = Association.objects.get(user_email=email)
             association.association_name = 'NYSPMA'
             association.save()
