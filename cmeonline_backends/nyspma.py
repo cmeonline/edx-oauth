@@ -213,7 +213,7 @@ class NYSPMAOAuth2(BaseOAuth2):
             from student.models import get_user_by_username_or_email
             user = get_user_by_username_or_email(email)
             from cmeonline.association.models import Association
-            association = Association.objects.filter(user=user)
+            association = Association.objects.filter(user=user).first()
             association.association_name = 'NYSPMA'
             association.save()
             logger.info('_set_association() - saved association for : {}'.format(email))
