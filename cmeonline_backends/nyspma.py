@@ -220,7 +220,7 @@ class NYSPMAOAuth2(BaseOAuth2):
             if self.DEBUG_LOG:
                 logger.info('_set_association() - saved association for : {}'.format(email))
 
-    def _get_user(email):
+    def _get_user(self, email):
         try:
             user = get_user_by_username_or_email(email)
             return user
