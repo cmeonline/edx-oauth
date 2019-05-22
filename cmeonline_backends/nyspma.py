@@ -49,6 +49,10 @@ from urllib import urlencode
 from urllib2 import urlopen
 from social_core.backends.oauth import BaseOAuth2
 from django.conf import settings
+from django.contrib.auth.models import User
+from student.models import get_user_by_username_or_email
+from cmeonline.association.models import Association
+
 
 from logging import getLogger
 logger = getLogger(__name__)
@@ -207,18 +211,19 @@ class NYSPMAOAuth2(BaseOAuth2):
         try to store the association name in a CME Online custom user field.
     """
     def _set_association(self, email):
-        if self.DEBUG_LOG:
-            logger.info('_set_association() - {}'.format(email))
-
-        try:
-            from student.models import get_user_by_username_or_email
-            user = get_user_by_username_or_email(email)
-            from cmeonline.association.models import Association
+        user = self._get_user(email)
+        if user:
             association = Association.objects.get_or_create(user=user)[0]
             association.association_name = 'NYSPMA'
             association.save()
 
             if self.DEBUG_LOG:
                 logger.info('_set_association() - saved association for : {}'.format(email))
-        except NotImplementedError:
-            logger.warning('_set_association() - unable to save association name for {}'.format(email))
+
+    def _get_user(email):
+        try:
+            user = get_user_by_username_or_email(email)
+            return user
+        except User.DoesNotExist:
+            logger.warning('_set_association() - user does not exist {}'.format(email))
+            return
